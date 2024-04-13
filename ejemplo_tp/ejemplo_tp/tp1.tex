@@ -50,6 +50,39 @@
 	\asegura{res = {\existe{i}{\nat}{0 <= i < |trayectoria| \yLuego trayectoria[i] > trayectoria[i+1] \wedge trayectoria[i] > trayectoria[i-1]}}}
 \end{proc} %no encontré el símbolo existe unico ;;  hay q bver como hacer lo de los bordes porque se indefine ;; caso vacío?
 
+\begin{minipage}[t]{19cm}
+\begin{proc}{trayectoriaDeLosFrutosIndividualesALargoPlazo}{\Inout trayectorias : \TLista{\TLista{\mathds{R}}}, \In cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\mathds{R}}}, \In pagos : \TLista{\TLista{\mathds{R}}}, \In eventos : \TLista{\TLista{\mathds{N}}}}{}
+	%    \modifica{parametro1, parametro2,..}
+	\requiere{faltaAgregarlos}
+	\asegura{%
+	\paraTodo[unalinea]{j}{\ent}{0 \leq j < \left| trayectorias |\right} \implica {trayectorias[j][0] = old{(trayectorias[j][0])}}
+	} 
+	\asegura{%
+	\paraTodo[unalinea]{j, r}{\ent}{0 \leq j < trayectorias}{\implicaLuego
+	(0 < r < eventos[j])} \implica trayectorias[j][r] = 
+	calcularRecursos(
+		trayectorias[j][r - 1],
+		cooperan[j],
+		pagos[j][eventos[j][r - 1]],
+		apuestas[j][r - 1],
+		calcularFondoComun(trayectoria, cooperan, apuestas, pagos, eventos, r)),
+		| trayectorias |
+	}
+\end{proc}
+\end{minipage}
+
+%aqui iria un espacio
+\vspace{1cm}
+
+\begin{minipage}[t]{19cm}
+\aux{calcularFondoComun}{trayectorias : \TLista{\TLista{\mathds{R}}}, cooperan : \TLista{\bool}, apuestas : \TLista{\TLista{\mathds{R}}}, pagos : \TLista{\TLista{\mathds{R}}}, eventos : \TLista{\TLista{\mathds{N}}}}{\float}{%
+	%\begin{equation}
+	\sum\limits_{i=0}^{| trayectorias | - 1} \IfThenElse{cooperan[i] = true}{trayectorias[i][r - 1] * apuestas[i][eventos[i][r - 1]] * pagos[i][eventos[i][r - 1]]}{\text{0}}
+	\label{eq:1} 
+	%\end{equation}
+}
+\end{minipage}
+
 \aux{auxiliarSuelto}{parametros}{tipoRes}{expresion}
 % \paraTodo{variable}{tipo}{expresion}
 % \existe{variable}{tipo}{expresion}
