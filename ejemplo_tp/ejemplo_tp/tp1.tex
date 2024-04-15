@@ -132,14 +132,22 @@ Así, por el teorema del invariante, el ciclo $while(B) \, do \, S$ es parcialme
 	\item $\{I \wedge \neg B \} \implica Q_c$
 \end{enumerate}
 
-Tenemos $P_c = i=0 \wedge res=rec \wedge ap_c + ap_s = 1 \wedge p_c > 0 \wedge p_s > 0 \wedge ap_c > 0 \wedge ap_s > 0 \wedge rec > 0$ y queremos ver que \\ $0 \leq i < |evs| \wedge res = rec (ap_c pa_c)^{\# apariciones(subseq(0, i, evs), T)}(ap_s pa_s)^{\#apariciones(subseq(0, i, evs), F)$
+Para probar 1. tenemos $P_c = i=0 \wedge res=rec \wedge ap_c + ap_s = 1 \wedge p_c > 0 \wedge p_s > 0 \wedge ap_c > 0 \wedge ap_s > 0 \wedge rec > 0$ y queremos ver que \\ $0 \leq i < |evs| \wedge res = rec (ap_c pa_c)^{\# apariciones(subseq(0, i, evs), T)}(ap_s pa_s)^{\#apariciones(subseq(0, i, evs), F)$
 
 \begin{proof}
-    $P_c \implica  i = 0 \implica 0 \leq i < |evs| \wedge subseq(0, i, evs) = subseq(0, 0, evs) = [] \\
-    \implica \#(subseq(0, i, evs), T) = \#(subseq(0, i, evs), F) = 0  \\
-    \implica (ap_c pa_c)^{\#(subseq(0, i, evs), T)} = (ap_s pa_s)^{\#(subseq(0, i, evs), F)} = 1 \\
-	\implica rec * (ap_c pa_c)^{\#(subseq(0, i, evs), T)} * (ap_s pa_s)^{\#(subseq(0, i, evs), F)} = rec $\\
+    $P_c \implica  i = 0 \implica 0 \leq i < |evs| \wedge subseq(0, i, evs) \equiv subseq(0, 0, evs) \equiv [\,] \\
+    \implica \#(subseq(0, i, evs), T) = \#(subseq(0, i, evs), F) \equiv 0  \\
+    \implica (ap_c pa_c)^{\#(subseq(0, i, evs), T)} = (ap_s pa_s)^{\#(subseq(0, i, evs), F)} \equiv 1 \\
+	\implica rec * (ap_c pa_c)^{\#(subseq(0, i, evs), T)} * (ap_s pa_s)^{\#(subseq(0, i, evs), F)} \equiv rec $\\
     Además, $P_c$ \implica $res = rec$. Luego, $res = rec * (ap_c pa_c)^{\#(subseq(0, i, evs), T)} * (ap_s pa_s)^{\#(subseq(0, i, evs), F)} \wedge 0 \leq i < |evs|$, que es el invariante.
+\end{proof}
+
+Luego, para probar 3., tenemos
+
+\begin{proof}
+	$ \{\neg B \wedge  I\} \implica i \geq |evs| \wedge 0 \geq i \leq |evs|	\implica i = |evs| \\$
+	Luego, $I \wedge i = |evs| \implica res = rec * (ap_c pa_c)^{\#(subseq(0, i, evs), T)} * (ap_s pa_s)^{\#(subseq(0, i, evs), F)} \\
+	= rec * (ap_c pa_c)^{\#(subseq(0, |evs|, evs), T)} * (ap_s pa_s)^{\#(subseq(0, |evs|, evs), F)} = rec * (ap_c pa_c)^{\#(evs, T)} * (ap_s pa_s)^{\#(evs, F)} $ 
 \end{proof}
 
 \end{document}
