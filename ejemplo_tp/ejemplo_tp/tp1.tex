@@ -50,7 +50,7 @@
 	\asegura{res = {\existe{i}{\nat}{0 <= i < |trayectoria| \yLuego trayectoria[i] > trayectoria[i+1] \wedge trayectoria[i] > trayectoria[i-1]}}}
 \end{proc} %no encontré el símbolo existe unico ;;  hay q bver como hacer lo de los bordes porque se indefine ;; caso vacío?
 
-\begin{minipage}[t]{19cm}
+\begin{minipage}{19cm}
 \begin{proc}{trayectoriaDeLosFrutosIndividualesALargoPlazo}{\Inout trayectorias : \TLista{\TLista{\mathds{R}}}, \In cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\mathds{R}}}, \In pagos : \TLista{\TLista{\mathds{R}}}, \In eventos : \TLista{\TLista{\mathds{N}}}}{}
 	%    \modifica{parametro1, parametro2,..}
 	\requiere{faltaAgregarlos}
@@ -58,9 +58,9 @@
 	\paraTodo[unalinea]{j}{\ent}{0 \leq j < \left| trayectorias |\right} \implica {trayectorias[j][0] = old{(trayectorias[j][0])}}
 	} 
 	\asegura{%
-	\paraTodo[unalinea]{j, r}{\ent}{0 \leq j < trayectorias}{\implicaLuego
-	(0 < r < eventos[j])} \implica trayectorias[j][r] = 
-	calcularRecursos(
+	\paraTodo[unalinea]{j, r}{\ent}{0 \leq j < |trayectorias|}{\implicaLuego
+	(0 < r < |eventos[j]|)} \implica trayectorias[j][r] = 
+	calcularRecurso(
 		trayectorias[j][r - 1],
 		cooperan[j],
 		pagos[j][eventos[j][r - 1]],
@@ -70,6 +70,7 @@
 	}
 \end{proc}
 \end{minipage}
+
 
 %aqui iria un espacio
 \vspace{1cm}
