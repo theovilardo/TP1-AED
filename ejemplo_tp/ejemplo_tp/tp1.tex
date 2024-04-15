@@ -83,6 +83,23 @@
 }
 \end{minipage}
 
+\vspace{1cm}
+
+\begin{minipage}[t]{19cm}
+\aux{calcularRecurso}{recurso: \float, coop: \bool, apuesta: \float, pago: \float, fondoComun: \float, cantidadDeJugadores: \nat}{\float}{%
+	res = dividirFondos(apuesta * pago * recurso, coop, fondoComun, cantidadDeJugadores)
+}
+\end{minipage}
+
+%aqui va un espacio
+\vspace{1cm}
+
+\begin{minipage}[t]{19cm}
+\aux{dividirFondos}{nuevoRecurso: \float, coop: \bool, fondoComun: \float, cantidadDeJugadores: \nat}{\float}{%
+	res = \IfThenElse{coop = true}{$\[\frac{\text{fondoComun}}{\text{cantidadDeJugadores}}\]$}{\text{$\frac{\text{fondoComun}}{\text{cantidadDeJugadores}} + \text{nuevoRecurso}$}}
+}
+\end{minipage}
+
 \aux{auxiliarSuelto}{parametros}{tipoRes}{expresion}
 % \paraTodo{variable}{tipo}{expresion}
 % \existe{variable}{tipo}{expresion}
