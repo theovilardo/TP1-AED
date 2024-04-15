@@ -45,33 +45,6 @@
 	\aux{fondoMonetario}{\In recursos : \TLista{\float}, \In cooperan : \TLista{\bool}}{\float}{\sum_{i=0}^{n} {\IfThenElse{cooperan[i]}{recursos[i]}{0}}}
 \end{proc}
 
-\begin{proc}{trayectoriaExtrañaEscalera}{\In trayectoria : \TLista{\float}}{\bool}
-	\requiere{|recursos| = |cooperan|}
-	\asegura{res = {\existe{i}{\nat}{0 <= i < |trayectoria| \yLuego trayectoria[i] > trayectoria[i+1] \wedge trayectoria[i] > trayectoria[i-1]}}}
-\end{proc} %no encontré el símbolo existe unico ;;  hay q bver como hacer lo de los bordes porque se indefine ;; caso vacío?
-
-\begin{minipage}{19cm}
-\begin{proc}{trayectoriaDeLosFrutosIndividualesALargoPlazo}{\Inout trayectorias : \TLista{\TLista{\mathds{R}}}, \In cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\mathds{R}}}, \In pagos : \TLista{\TLista{\mathds{R}}}, \In eventos : \TLista{\TLista{\mathds{N}}}}{}
-	%    \modifica{parametro1, parametro2,..}
-	\requiere{faltaAgregarlos}
-	\asegura{%
-	\paraTodo[unalinea]{j}{\ent}{0 \leq j < \left| trayectorias |\right} \implica {trayectorias[j][0] = old{(trayectorias[j][0])}}
-	} 
-	\asegura{%
-	\paraTodo[unalinea]{j, r}{\ent}{0 \leq j < |trayectorias|}{\implicaLuego
-	(0 < r < |eventos[j]|)} \implica trayectorias[j][r] = 
-	calcularRecurso(
-		trayectorias[j][r - 1],
-		cooperan[j],
-		pagos[j][eventos[j][r - 1]],
-		apuestas[j][r - 1],
-		calcularFondoComun(trayectoria, cooperan, apuestas, pagos, eventos, r)),
-		| trayectorias |
-	}
-\end{proc}
-\end{minipage}
-
-
 %aqui iria un espacio
 \vspace{1cm}
 
@@ -101,6 +74,41 @@
 }
 \end{minipage}
 
+\begin{proc}{trayectoriaExtrañaEscalera}{\In trayectoria : \TLista{\float}}{\bool}
+	\requiere{|recursos| = |cooperan|}
+	\asegura{res = {\existe{i}{\nat}{0 <= i < |trayectoria| \yLuego trayectoria[i] > trayectoria[i+1] \wedge trayectoria[i] > trayectoria[i-1]}}}
+\end{proc} %no encontré el símbolo existe unico ;;  hay q bver como hacer lo de los bordes porque se indefine ;; caso vacío?
+
+\begin{minipage}{19cm}
+\begin{proc}{trayectoriaDeLosFrutosIndividualesALargoPlazo}{\Inout trayectorias : \TLista{\TLista{\mathds{R}}}, \In cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\mathds{R}}}, \In pagos : \TLista{\TLista{\mathds{R}}}, \In eventos : \TLista{\TLista{\mathds{N}}}}{}
+	%    \modifica{parametro1, parametro2,..}
+	\requiere{faltaAgregarlos}
+	\asegura{%
+	\paraTodo[unalinea]{j}{\ent}{0 \leq j < \left| trayectorias |\right} \implica {trayectorias[j][0] = old{(trayectorias[j][0])}}
+	} 
+	\asegura{%
+	\paraTodo[unalinea]{j, r}{\ent}{0 \leq j < |trayectorias|}{\implicaLuego
+	(0 < r < |eventos[j]|)} \implica trayectorias[j][r] = 
+	calcularRecurso(
+		trayectorias[j][r - 1],
+		cooperan[j],
+		pagos[j][eventos[j][r - 1]],
+		apuestas[j][r - 1],
+		calcularFondoComun(trayectoria, cooperan, apuestas, pagos, eventos, r)),
+		| trayectorias |
+	}
+\end{proc}
+\end{minipage}
+
+\begin{proc}{individuoDecideSiCooperarONo}{\In individuo: \nat, \In recursos : \TLista{\float}, \Inout cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\float}}, \In pagos : \TLista{\TLista{\float}}, \In eventos : \TLista{\TLista{\nat}}}
+	\asegura{cooperan[i] = {\IfThenElse}{calcularUltimoRecurso(individuo, recursos, indSimulaCooperar(), apuestas, pagos, eventos)>calcularUltimoRecurso(individuo, recursos, indSimulaCooperar(), apuestas, pagos, eventos)}{True}{False} }
+\end{proc}
+
+\aux{calcularUltimoRecurso}{\In i: \nat, \In rs : \TLista{\float}, \Inout coop : \TLista{\bool}, \In as : \TLista{\TLista{\float}}, \In ps : \TLista{\TLista{\float}}, \In es : \TLista{\TLista{\nat}}}{\float}{calcularRecursos(|es[i]|-1, rs, coop, as, ps, es)[i]}
+
+\aux{calcularRecursos}{t, rs, coop, as, ps, es}{\float}{\paraTodo i:\ent, }
+
+
 \aux{auxiliarSuelto}{parametros}{tipoRes}{expresion}
 % \paraTodo{variable}{tipo}{expresion}
 % \existe{variable}{tipo}{expresion}
@@ -108,6 +116,30 @@
 \pred{predSuelto}{parametros}{\paraTodo[unalinea]{variable}{tipo}{algo \implicaLuego expresion}}
 \pred{predSuelto}{parametros}{\existe[unalinea]{variable}{tipo}{algo \yLuego expresion}}
 
+\subsection{Demostración de correctitud}
 
+Para probar la correctitud parcial del ciclo, se propone el invariante:
+\begin{equation}
+	I = 0 \leq i < |evs| \wedge res = rec (ap_c pa_c)^{\# apariciones(subseq(0, i, evs), T)}(ap_s pa_s)^{\#apariciones(subseq(0, i, evs), F)}
+\end{equation}	
+donde se usaron (y usarán) las abreviaturas $rec = recurso$, $ap = apuesta$, $pa = pago$, $evs = eventos$.\\
+
+Así, por el teorema del invariante, el ciclo $while(B) \, do \, S$ es parcialmente correcto respecto $(P_c, Q_c) $ sii:
+
+\begin{enumerate} \setlength\itemsep{0cm}
+	\item $P_c \implica I$
+	\item $\{I \wedge B \} S \{I\}$
+	\item $\{I \wedge \neg B \} \implica Q_c$
+\end{enumerate}
+
+Tenemos $P_c = i=0 \wedge res=rec \wedge ap_c + ap_s = 1 \wedge p_c > 0 \wedge p_s > 0 \wedge ap_c > 0 \wedge ap_s > 0 \wedge rec > 0$ y queremos ver que \\ $0 \leq i < |evs| \wedge res = rec (ap_c pa_c)^{\# apariciones(subseq(0, i, evs), T)}(ap_s pa_s)^{\#apariciones(subseq(0, i, evs), F)$
+
+\begin{proof}
+    $P_c \implica  i = 0 \implica 0 \leq i < |evs| \wedge subseq(0, i, evs) = subseq(0, 0, evs) = [] \\
+    \implica \#(subseq(0, i, evs), T) = \#(subseq(0, i, evs), F) = 0  \\
+    \implica (ap_c pa_c)^{\#(subseq(0, i, evs), T)} = (ap_s pa_s)^{\#(subseq(0, i, evs), F)} = 1 \\
+	\implica rec * (ap_c pa_c)^{\#(subseq(0, i, evs), T)} * (ap_s pa_s)^{\#(subseq(0, i, evs), F)} = rec $\\
+    Además, $P_c$ \implica $res = rec$. Luego, $res = rec * (ap_c pa_c)^{\#(subseq(0, i, evs), T)} * (ap_s pa_s)^{\#(subseq(0, i, evs), F)} \wedge 0 \leq i < |evs|$, que es el invariante.
+\end{proof}
 
 \end{document}
