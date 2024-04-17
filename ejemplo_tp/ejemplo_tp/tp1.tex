@@ -75,9 +75,11 @@
 \end{minipage}
 
 \begin{proc}{trayectoriaExtrañaEscalera}{\In trayectoria : \TLista{\float}}{\bool}
-	\requiere{|recursos| = |cooperan|}
-	\asegura{res = {\existe{i}{\nat}{0 <= i < |trayectoria| \yLuego trayectoria[i] > trayectoria[i+1] \wedge trayectoria[i] > trayectoria[i-1]}}}
-\end{proc} %no encontré el símbolo existe unico ;;  hay q bver como hacer lo de los bordes porque se indefine ;; caso vacío?
+	\requiere{|trayectorias| > 0}
+	\asegura{%
+		res = \existe{i}{\nat}{0 \leq i < |trayectoria| \yLuego trayectoria[i] > trayectoria[i+1] \wedge trayectoria[i] > trayectoria[i-1]} \land (\not\exists{j}:{\nat})(i = j \land 0 \leq j < |trayectoria| \yLuego trayectoria[j] > trayectoria[j+1] \wedge trayectoria[j] > trayectoria[j-1])
+		}
+\end{proc}
 
 \begin{minipage}{19cm}
 \begin{proc}{trayectoriaDeLosFrutosIndividualesALargoPlazo}{\Inout trayectorias : \TLista{\TLista{\mathds{R}}}, \In cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\mathds{R}}}, \In pagos : \TLista{\TLista{\mathds{R}}}, \In eventos : \TLista{\TLista{\mathds{N}}}}{}
