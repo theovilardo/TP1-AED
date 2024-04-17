@@ -82,7 +82,12 @@
 \begin{minipage}{19cm}
 \begin{proc}{trayectoriaDeLosFrutosIndividualesALargoPlazo}{\Inout trayectorias : \TLista{\TLista{\mathds{R}}}, \In cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\mathds{R}}}, \In pagos : \TLista{\TLista{\mathds{R}}}, \In eventos : \TLista{\TLista{\mathds{N}}}}{}
 	%    \modifica{parametro1, parametro2,..}
-	\requiere{faltaAgregarlos}
+	\requiere{%
+		{trayectoria = old{(trayectorias)}} \newline {\land trayectoriaInicialValida(old{(trayectorias)})} \newline {\land apuestasValidas(apuestas)} \newline {\land 				\text{mismoTamañoLista(old{(trayectorias)}, apuestas, pagos, eventos, cooperan)}} \newline {\land \text{mismoTamañoSubListas(apuestas, pagos)}} \newline {\land 			\text{eventosValidos(eventos, apuestas)}}
+	}
+	\asegura{%
+		|trayectorias| = old{(trayectorias)} \land trayectoriasFinalesValidas(trayectorias, eventos)
+	}
 	\asegura{%
 	\paraTodo[unalinea]{j}{\ent}{0 \leq j < \left| trayectorias |\right} \implica {trayectorias[j][0] = old{(trayectorias[j][0])}}
 	} 
@@ -99,6 +104,49 @@
 	}
 \end{proc}
 \end{minipage}
+
+%Preds y Aux para los requiere:
+
+%aqui va un espacio
+\vspace{1cm}
+
+\pred{apuestasValidas}{s: \TLista{\TLista{\float}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq j < |s|} \implicaLuego {(sumaElementos(s[i]) = 1)}}
+
+%aqui va un espacio
+\vspace{1cm}
+
+\aux{sumaElementos}{s: \TLista{\float}}{\ent}{%
+	\sum\limits_{k=0}^{| s | - 1} s[k]
+}
+
+%aqui va un espacio
+\vspace{1cm}
+
+\pred{mismoTamañoListas}{s1, s2, s3: \TLista{\TLista{\float}}, s4: \TLista{\TLista{\nat}}, s5: \TLista{\bool}}{|s1| = |s2| \land |s2| = |s3| \land |s3| = |s4| \land |s4| = |s5|}
+
+%aqui va un espacio
+\vspace{1cm}
+
+\pred{mismoTamañoSublistas}{s1, s2: \TLista{\TLista{\float}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |s1| \implicaLuego |s1[i]| = |s2[i]|}}
+
+%aqui va un espacio
+\vspace{1cm}
+
+\pred{eventosValidos}{s: \TLista{\TLista{\nat}}, l: \TLista{\TLista{\float}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |s| -1 \implicaLuego |s[i]| = |s[i]| + 1} \land {\paraTodo[unalinea]{m}{\ent}{0 \leq m < |s| \implicaLuego {\paraTodo[unalinea]{n}{\ent}{0 \leq n < |s[m]| \implicaLuego 0 \leq s[m][n] < |[m]|}}}}}
+
+%aqui va un espacio
+\vspace{1cm}
+
+\pred{trayectoriaInicialValida}{s: \TLista{\TLista{\float}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i |s| \implicaLuego |s[i]| = 1}}
+
+%aqui va un espacio
+\vspace{1cm}
+
+\pred{trayectoriasFinalesValidas}{s1: \TLista{\TLista{}}, s2: \TLista{\TLista{\nat}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |s1| \implicaLuego |s1[i]| = |s2[i]| + 1}}
+
+% \paraTodo{variable}{tipo}{expresion}
+% \existe{variable}{tipo}{expresion}
+% Pueden tener [unalinea] para que no se divida en varias lineas
 
 \begin{proc}{individuoDecideSiCooperarONo}{\In individuo: \nat, \In recursos : \TLista{\float}, \Inout cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\float}}, \In pagos : \TLista{\TLista{\float}}, \In eventos : \TLista{\TLista{\nat}}}
 	\asegura{cooperan[i] = {\IfThenElse}{calcularUltimoRecurso(individuo, recursos, indSimulaCooperar(), apuestas, pagos, eventos)>calcularUltimoRecurso(individuo, recursos, indSimulaCooperar(), apuestas, pagos, eventos)}{True}{False} }
