@@ -74,7 +74,7 @@
 }
 \end{minipage}
 
-\begin{proc}{trayectoriaExtrañaEscalera}{\In trayectoria : \TLista{\float}}{\bool}
+\begin{proc}{trayectoriaExtrañaEscalera}{\In trayectorias : \TLista{\float}}{\bool}
 	\requiere{|trayectorias| > 0}
 	\asegura{%
 		res = \existe{i}{\nat}{0 \leq i < |trayectoria| \yLuego trayectoria[i] > trayectoria[i+1] \wedge trayectoria[i] > trayectoria[i-1]} \land (\not\exists{j}:{\nat})(i = j \land 0 \leq j < |trayectoria| \yLuego trayectoria[j] > trayectoria[j+1] \wedge trayectoria[j] > trayectoria[j-1])
