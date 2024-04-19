@@ -151,6 +151,7 @@
 % Pueden tener [unalinea] para que no se divida en varias lineas
 
 \begin{proc}{individuoDecideSiCooperarONo}{\In individuo: \nat, \In recursos : \TLista{\float}, \Inout cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\float}}, \In pagos : \TLista{\TLista{\float}}, \In eventos : \TLista{\TLista{\nat}}}
+	\newline \requiere { {cooperan=old(cooperan)} \newline \land{apuestasValidas(apuestas)} \newline \land{mismoTamañoListas2(recursos,apuestas,pagos,eventos,old(cooperan))} \newline \land{mismoTamañoSublistas(apuestas,pagos)} \newline \land{eventosValidos(eventos,apuestas)}  }
 	\asegura{cooperan[i] = {\IfThenElse}{calcularUltimoRecurso(individuo, recursos, indSimulaCooperar(), apuestas, pagos, eventos)>calcularUltimoRecurso(individuo, recursos, indSimulaCooperar(), apuestas, pagos, eventos)}{True}{False} }
 \end{proc}
 
