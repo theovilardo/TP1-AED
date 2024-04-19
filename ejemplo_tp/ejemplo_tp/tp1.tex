@@ -169,6 +169,7 @@
 %aqui va un espacio
 \vspace{1cm}
 
+\pred{mismoTamañoListas2}{s1: \TLista{\float}, s2, s3: \TLista{\TLista{\float}}, s4: \TLista{\TLista{\nat}}, s5: \TLista{\bool}}{|s1| = |s2| \land |s2| = |s3| \land |s3| = |s4| \land |s4| = |s5|}
 \begin{minipage}[t]{17cm}
 \aux{convieneCooperar}{ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{\bool}{%
 	res = \IfThenElse{calculaRecursoFinalCooperando(|es[ind]| - 1, rs, ind, coop, as, es, ps, |rs|) \geq calculaRecursoFinalNoCooperando(|es[ind]| - 1, rs, ind, coop, as, es, ps, |rs|)}{true}{false}
@@ -212,7 +213,6 @@
 }
 \end{minipage}
 
-\pred{mismoTamañoListas2}{s1: \TLista{\float}, s2, s3: \TLista{\TLista{\float}}, s4: \TLista{\TLista{\nat}}, s5: \TLista{\bool}}{|s1| = |s2| \land |s2| = |s3| \land |s3| = |s4| \land |s4| = |s5|}
 \aux{calcularUltimoRecurso}{\In i: \nat, \In rs : \TLista{\float}, \Inout coop : \TLista{\bool}, \In as : \TLista{\TLista{\float}}, \In ps : \TLista{\TLista{\float}}, \In es : \TLista{\TLista{\nat}}}{\float}{calcularRecursos(|es[i]|-1, rs, coop, as, ps, es)[i]}
 
 \aux{calcularRecursos}{t, rs, coop, as, ps, es}{\float}{\paraTodo i:\ent, }
