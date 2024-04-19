@@ -54,7 +54,7 @@
 \begin{minipage}{19cm}
 \begin{proc}{trayectoriaDeLosFrutosIndividualesALargoPlazo}{\Inout trayectorias : \TLista{\TLista{\mathds{R}}}, \In cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\mathds{R}}}, \In pagos : \TLista{\TLista{\mathds{R}}}, \In eventos : \TLista{\TLista{\mathds{N}}}}{}
 	\requiere{%
-		{trayectoriaInicialValida(old{(trayectorias)})} \newline {\land apuestasValidas(apuestas,eventos)} \newline {\land 				\text{mismoTamañoLista(old{(trayectorias)}, apuestas, pagos, eventos, cooperan)}} \newline {\land \text{mismoTamañoSubListas(apuestas, pagos)}} \newline {\land 			\text{eventosValidos(eventos, apuestas)}}
+		{trayectoriaInicialValida(trayectorias)} \newline {\land apuestasValidas(apuestas,eventos)} \newline {\land 				\text{mismoTamañoLista(old{(trayectorias)}, apuestas, pagos, eventos, cooperan)}} \newline {\land \text{mismoTamañoSubListas(apuestas, pagos)}} \newline {\land 			\text{eventosValidos(eventos, apuestas)}}
 	}
 	\asegura{%
 		|trayectorias| = old{(trayectorias)} \land trayectoriasFinalesValidas(trayectorias, eventos)
@@ -144,8 +144,8 @@
 \subtitulo{Ejercicio 1.4}
 
 \begin{proc}{individuoDecideSiCooperarONo}{\In individuo: \nat, \In recursos : \TLista{\float}, \Inout cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\float}}, \In pagos : \TLista{\TLista{\float}}, \In eventos : \TLista{\TLista{\nat}}}
-	\newline \requiere {{0 \leq individuo < |cooperan|} \newline \land{apuestasValidas(apuestas,eventos)} \newline \land{mismoTamañoListas2(recursos,apuestas,pagos,eventos,old(cooperan))} \newline \land{mismoTamañoSublistas(apuestas,pagos)} \newline \land{eventosValidos(eventos,apuestas)}  }
-	\asegura{cooperan[individuo] = convieneCooperar(individuo, recursos, old{(trayectorias)}, apuestas, pagos, eventos)
+	\newline \requiere {{0 \leq individuo < |cooperan|} \newline \land{apuestasValidas(apuestas,eventos)} \newline \land{mismoTamañoListas2(recursos,apuestas,pagos,eventos,cooperan)} \newline \land{mismoTamañoSublistas(apuestas,pagos)} \newline \land{eventosValidos(eventos,apuestas)}  }
+	\asegura{cooperan[individuo] = convieneCooperar(individuo, recursos, old{(trayectorias)}, apuestas, pagos, eventos)}
     \asegura{{|old(cooperan)|=|cooperan|} \newline \land{\paraTodo[unalinea]{i}{\ent}{0\leq i < |cooperan| \land i \neq individuo \implicaLuego old(cooperan[i]) = cooperan[i]}} }
 \end{proc}
 
@@ -169,6 +169,7 @@
 \begin{proc}{individuoActualizaApuesta}{\In individuo: \nat, \In recursos : \TLista{\float}, \In cooperan : \TLista{\bool}, \Inout apuestas : \TLista{\TLista{\float}}, \In pagos : \TLista{\TLista{\float}}, \In eventos : \TLista{\TLista{\nat}}}
 	\newline \requiere {}
 	\asegura{\paraTodo{s}{\TLista{\float}}(apuestaValida(s) \implica esMejorApuesta(apuestas[individuo], s, individuo, recursos, cooperan, pagos, eventos))}
+ 	\asegura{|old(apuestas)|=|apuestas| \newline \land {\paraTodo[unalinea]{i}{\ent}{0\leq i < |apuestas| \implicaLuego {\paraTodo[unalinea]{j}{\ent}{0\leq j < |apuestas[i]| \land apuestas[i] \neq apuestas[individuo]} \implicaLuego{apuestas[i][j]=old(apuestas[i][j])} }}  }  }
 \end{proc}
 
 \pred{esMejorApuesta}{a_1,a_2: \TLista{\TLista{\float}},ind: \ent, rs \TLista{\float}, coop : \TLista{\bool}, ps : \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{%
