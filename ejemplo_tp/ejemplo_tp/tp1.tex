@@ -188,7 +188,7 @@ Se propone el siguiente requiere (Pc) y asegura (Qc) del ciclo:
     Pc \equiv res=recursos \land i=0 \land ap_c + ap_s = 1 \land pa_c > 0 \land pa_s > 0 \land ap_c > 0 \land ap_s > 0 \land recurso > 0
 \end{equation}
 \begin{equation}
-    Qc \equiv COMPLETAR
+    Qc \equiv res = rec (ap_c pa_c)^{\# apariciones(eeventos, T)}(ap_s pa_s)^{\#apariciones(eventos, F)} \equiv Q
 \end{equation}
 Se demuestra que el Pc es correcto para iniciar el ciclo con la siguiente demostracion: \newline P \implica $wp(res:=recursos;i:=0,Pc)$ \newline $wp(res:=recursos;i:=0,Pc) \equiv wp(res:=recursos,wp(i:=0,Pc))$ \newline $wp(i:=0,Pc) \equiv def(0) \yLuego Pc_{0}^i \equiv res=recursos \land ap_c + ap_s = 1 \land pa_c > 0 \land pa_s > 0 \land ap_c > 0 \land ap_s > 0 \land recurso > 0$ \newline $wp(res:=recursos,wp(i:=0,Pc)) \equiv wp(res:=recursos,Pc_{0}^i) \equiv def(recursos) \yLuego (Pc_{0}^i)_{recursos}^{res} \equiv ap_c + ap_s = 1 \land pa_c > 0 \land pa_s > 0 \land ap_c > 0 \land ap_s > 0 \land recurso > 0$ \newline
 Quiero probar que \newline P \implica $wp(res:=recursos;i:=0,Pc)$ \newline \equiv P \implica P \equiv true \newline
