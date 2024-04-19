@@ -167,7 +167,7 @@
 
 \subtitulo{Ejercicio 1.5}
 \begin{proc}{individuoActualizaApuesta}{\In individuo: \nat, \In recursos : \TLista{\float}, \In cooperan : \TLista{\bool}, \Inout apuestas : \TLista{\TLista{\float}}, \In pagos : \TLista{\TLista{\float}}, \In eventos : \TLista{\TLista{\nat}}}
-	\newline \requiere {}
+	\newline \requiere {{0 \leq individuo < |apuestas|} \newline \land{apuestasValidas(apuestas,eventos)} \newline \land{mismoTamañoListas2(recursos,apuestas,pagos,eventos,cooperan)} \newline \land{mismoTamañoSublistas(apuestas,pagos)} \newline \land{eventosValidos(eventos,apuestas)}  }
 	\asegura{\paraTodo{s}{\TLista{\float}}(apuestaValida(s) \implica esMejorApuesta(apuestas[individuo], s, individuo, recursos, cooperan, pagos, eventos))}
  	\asegura{|old(apuestas)|=|apuestas| \newline \land {\paraTodo[unalinea]{i}{\ent}{0\leq i < |apuestas| \implicaLuego {\paraTodo[unalinea]{j}{\ent}{0\leq j < |apuestas[i]| \land apuestas[i] \neq apuestas[individuo]} \implicaLuego{apuestas[i][j]=old(apuestas[i][j])} }}  }  }
 \end{proc}
