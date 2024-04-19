@@ -39,18 +39,20 @@
 % 	\pred{pred1}{parametros}{expresion} 
 % \end{proc}
 
+\subtitulo{Ejercicio 1.1}
+
 \begin{proc}{redistribucionDeLosFrutos}{\In recursos : \TLista{\float}, \In cooperan : \TLista{\bool}}{\TLista{\float}}
 	\requiere{|recursos| = |cooperan|}
 	\asegura{res = fondoMonetario(recursos, cooperan) / |recursos|}
 	\aux{fondoMonetario}{\In recursos : \TLista{\float}, \In cooperan : \TLista{\bool}}{\float}{\sum_{i=0}^{n} {\IfThenElse{cooperan[i]}{recursos[i]}{0}}}
 \end{proc}
 
-%aqui iria un espacio
 \vspace{1cm}
+
+\subtitulo{Ejercicio 1.2}
 
 \begin{minipage}{19cm}
 \begin{proc}{trayectoriaDeLosFrutosIndividualesALargoPlazo}{\Inout trayectorias : \TLista{\TLista{\mathds{R}}}, \In cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\mathds{R}}}, \In pagos : \TLista{\TLista{\mathds{R}}}, \In eventos : \TLista{\TLista{\mathds{N}}}}{}
-	%    \modifica{parametro1, parametro2,..}
 	\requiere{%
 		{trayectoria = old{(trayectorias)}} \newline {\land trayectoriaInicialValida(old{(trayectorias)})} \newline {\land apuestasValidas(apuestas,eventos)} \newline {\land 				\text{mismoTamañoLista(old{(trayectorias)}, apuestas, pagos, eventos, cooperan)}} \newline {\land \text{mismoTamañoSubListas(apuestas, pagos)}} \newline {\land 			\text{eventosValidos(eventos, apuestas)}}
 	}
@@ -74,48 +76,36 @@
 \end{proc}
 \end{minipage}
 
-%Preds y Aux para los requiere:
-
-%aqui va un espacio
 \vspace{1cm}
 
 \pred{apuestasValidas}{aps,evs: \TLista{\TLista{\float}}} {\paraTodo[unalinea]{i}{\ent}{0 \leq i < |aps|} \implicaLuego {aps[i] \geq max(evs[i])}\yLuego{(sumaElementos(aps[i]) = 1)}}
 
-%aqui va un espacio
 \vspace{1cm}
 
 \aux{sumaElementos}{s: \TLista{\float}}{\ent}{%
 	\sum\limits_{k=0}^{| s | - 1} s[k]
 }
 
-%aqui va un espacio
 \vspace{1cm}
 
 \pred{mismoTamañoListas}{s1, s2, s3: \TLista{\TLista{\float}}, s4: \TLista{\TLista{\nat}}, s5: \TLista{\bool}}{|s1| = |s2| \land |s2| = |s3| \land |s3| = |s4| \land |s4| = |s5|}
 
-%aqui va un espacio
 \vspace{1cm}
 
 \pred{mismoTamañoSublistas}{s1, s2: \TLista{\TLista{\float}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |s1| \implicaLuego |s1[i]| = |s2[i]|}}
 
-%aqui va un espacio
 \vspace{1cm}
 
 \pred{eventosValidos}{s: \TLista{\TLista{\nat}}, l: \TLista{\TLista{\float}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |s| -1 \implicaLuego |s[i]| = |s[i]| + 1} \land {\paraTodo[unalinea]{m}{\ent}{0 \leq m < |s| \implicaLuego {\paraTodo[unalinea]{n}{\ent}{0 \leq n < |s[m]| \implicaLuego 0 \leq s[m][n] < |[m]|}}}}}
 
-%aqui va un espacio
 \vspace{1cm}
 
 \pred{trayectoriaInicialValida}{s: \TLista{\TLista{\float}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |s| \implicaLuego |s[i]| = 1}}
 
-%aqui va un espacio
 \vspace{1cm}
 
 \pred{trayectoriasFinalesValidas}{s1: \TLista{\TLista{}}, s2: \TLista{\TLista{\nat}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |s1| \implicaLuego |s1[i]| = |s2[i]| + 1}}
 
-% \paraTodo{variable}{tipo}{expresion}
-% \existe{variable}{tipo}{expresion}
-% Pueden tener [unalinea] para que no se divida en varias lineas
 
 \begin{minipage}[t]{19cm}
 \aux{calcularFondoComun}{trayectorias : \TLista{\TLista{\mathds{R}}}, cooperan : \TLista{\bool}, apuestas : \TLista{\TLista{\mathds{R}}}, pagos : \TLista{\TLista{\mathds{R}}}, eventos : \TLista{\TLista{\mathds{N}}}}{\float}{%
@@ -134,7 +124,6 @@
 }
 \end{minipage}
 
-%aqui va un espacio
 \vspace{1cm}
 
 \begin{minipage}[t]{19cm}
@@ -143,6 +132,8 @@
 }
 \end{minipage}
 
+\subtitulo{Ejercicio 1.3}
+
 \begin{proc}{trayectoriaExtrañaEscalera}{\In trayectorias : \TLista{\float}}{\bool}
 	\requiere{|trayectorias| > 0}
 	\asegura{%
@@ -150,89 +141,33 @@
 		}
 \end{proc}
 
+\subtitulo{Ejercicio 1.4}
+
 \begin{proc}{individuoDecideSiCooperarONo}{\In individuo: \nat, \In recursos: \TLista{\float}, \Inout cooperan: \TLista{\bool}, \In apuestas:
-\TLista{\TLista{\float}}, \In pagos: \TLista{\TLista{\float}}, \In eventos: \TLista{\TLista{\nat}}}{}
-	\requiere{funcionLauti()}
-	\asegura{%
-		cooperan[individuo] = convieneCooperar(individuo, recursos, old{(trayectorias)}, apuestas, pagos, eventos)
-	}
-\end{proc}
-
+	\TLista{\TLista{\float}}, \In pagos: \TLista{\TLista{\float}}, \In eventos: \TLista{\TLista{\nat}}}{}
+		\requiere{}
+		\asegura{%
+			cooperan[individuo] = convieneCooperar(individuo, recursos, old{(trayectorias)}, apuestas, pagos, eventos)
+		}
+	\end{proc}
+	
 \vspace{1cm}
-
+	
 \begin{minipage}[t]{17cm}
-\pred{convieneCooperar}{ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{%
-	\existe{s1, s2}{\TLista{\nat}}{trayectoriaCorrecta(s1, ind, rs, setAt(coop, ind, true), as, ps, es) \land \\
-	trayectoriaCorrecta(s2, ind, rs, setAt(coop, ind, false), as, ps, es \\
-	\implica \IfThenElse{s1[ind][|s1|-1] \geq s2[ind][|s2|-1]}{true}{false})}	
-}
-\end{minipage}
-
+	\pred{convieneCooperar}{ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{%
+			\existe{s1, s2}{\TLista{\nat}}{trayectoriaCorrecta(s1, ind, rs, setAt(coop, ind, true), as, ps, es) \land \\
+			trayectoriaCorrecta(s2, ind, rs, setAt(coop, ind, false), as, ps, es \\
+			\implica \IfThenElse{s1[ind][|s1|-1] \geq s2[ind][|s2|-1]}{true}{false})}	
+		}
+	\end{minipage}
 \vspace{1cm}
-
+	
 \pred{trayectoriaCorrecta}{s: \TLista{\TLista{\float}}, ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{%
 	|s[ind]| = |es[ind]| \land (\paraTodo{s[ind][j]}{\ent}{0 \leq j < |s[ind]-1| \implica s[ind][j] = calcularRecurso(s[ind][j-1], coop, as[ind][es[ind][j]], ps[ind][es[ind][j]], calcularFondoComun(s, coop, as, ps, es, j), |s|)}
 }
 \vspace{1cm}
-
-%aqui va un espacio
-\vspace{1cm}
-
+	
 \pred{mismoTamañoListas2}{s1: \TLista{\float}, s2, s3: \TLista{\TLista{\float}}, s4: \TLista{\TLista{\nat}}, s5: \TLista{\bool}}{|s1| = |s2| \land |s2| = |s3| \land |s3| = |s4| \land |s4| = |s5|}
-\begin{minipage}[t]{17cm}
-\aux{convieneCooperar}{ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{\bool}{%
-	res = \IfThenElse{calculaRecursoFinalCooperando(|es[ind]| - 1, rs, ind, coop, as, es, ps, |rs|) \geq calculaRecursoFinalNoCooperando(|es[ind]| - 1, rs, ind, coop, as, es, ps, |rs|)}{true}{false}
-}
-\end{minipage}
-
-%aqui va un espacio
-\vspace{1cm}
-
-\begin{minipage}[t]{19cm}
-\aux{calculaRecursoFinalCooperando}{tiempo: \nat, ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}, cantidadDeJugadores: \nat}{\float}{%
-	res = $\[\frac{\text{fondoMonetarioComún(tiempo, fondoInicial(ind, coop, rs, as, ps, es), coop, ps, es, as)}}{\text{cantidadDeJugadores}}\]$
-}
-\end{minipage}
-
-%aqui va un espacio
-\vspace{1cm}
-
-\begin{minipage}[t]{19cm}
-\aux{calculaRecursoFinalNoCooperando}{tiempo: \nat, ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{\float}{%
-	res = \sum\limits_{i=0}^{| tiempo | - 1} \text{fondoMonetarioComún(tiempo, fondoInicial(i, coop, rs, as, ps, es), coop, as, ps, es)}
-}
-\end{minipage}
-
-%aqui va un espacio
-\vspace{1cm}
-
-\begin{minipage}[t]{17cm}
-\aux{fondoMonetarioComun}{tiempo: \nat, fondoInicial: \float, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{\float}{%
-	res = \prod_{i=1}^{tiempo -1} 
-	\left(\sum\limits_{j=0}^{| eventos | - 1} \IfThenElse{coop[j] = true}{\frac{(as[j][es[j][i]] * ps[j][es[j][i]])}{n^(tiempo - 1)}}{\text{0}}\right) * fondoInicial
-}
-\end{minipage}
-
-%aqui va un espacio
-\vspace{1cm}
-
-\begin{minipage}[t]{19cm}
-\aux{fondoInicial}{ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{\float}{%
-	res = \sum\limits_{j=0}^{| rs | - 1} \IfThenElse{cooperan[ind] = true}{(rs[j] * as[j][es[j][0]] * ps[j][es[j][0]])}{\text{0}}
-}
-\end{minipage}
-
-\aux{calcularUltimoRecurso}{\In i: \nat, \In rs : \TLista{\float}, \Inout coop : \TLista{\bool}, \In as : \TLista{\TLista{\float}}, \In ps : \TLista{\TLista{\float}}, \In es : \TLista{\TLista{\nat}}}{\float}{calcularRecursos(|es[i]|-1, rs, coop, as, ps, es)[i]}
-
-\aux{calcularRecursos}{t, rs, coop, as, ps, es}{\float}{\paraTodo i:\ent, }
-
-
-\aux{auxiliarSuelto}{parametros}{tipoRes}{expresion}
-% \paraTodo{variable}{tipo}{expresion}
-% \existe{variable}{tipo}{expresion}
-% Pueden tener [unalinea] para que no se divida en varias lineas
-\pred{predSuelto}{parametros}{\paraTodo[unalinea]{variable}{tipo}{algo \implicaLuego expresion}}
-\pred{predSuelto}{parametros}{\existe[unalinea]{variable}{tipo}{algo \yLuego expresion}}
 
 \subsection{Demostración de correctitud}
 
@@ -315,5 +250,43 @@ Luego, para probar 2., tenemos que ver que la tripla de Hoare $\{I \wedge B \} S
 	Luego, $I \wedge i = |evs| \implica res = rec * (ap_c pa_c)^{\#(subseq(evs, 0, i), T)} * (ap_s pa_s)^{\#(subseq(evs, 0, i), F)} \\
 	= rec * (ap_c pa_c)^{\#(subseq(evs, 0, |evs|), T)} * (ap_s pa_s)^{\#(subseq(evs, 0, |evs|), F)} = rec * (ap_c pa_c)^{\#(evs, T)} * (ap_s pa_s)^{\#(evs, F)} $ 
 \end{proof}
+
+
+\vspace{1cm}
+
+% \begin{minipage}[t]{19cm}
+% \aux{calculaRecursoFinalCooperando}{tiempo: \nat, ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}, cantidadDeJugadores: \nat}{\float}{%
+% 	res = $\[\frac{\text{fondoMonetarioComún(tiempo, fondoInicial(ind, coop, rs, as, ps, es), coop, ps, es, as)}}{\text{cantidadDeJugadores}}\]$
+% }
+% \end{minipage}
+
+% \vspace{1cm}
+
+% \begin{minipage}[t]{19cm}
+% \aux{calculaRecursoFinalNoCooperando}{tiempo: \nat, ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{\float}{%
+% 	res = \sum\limits_{i=0}^{| tiempo | - 1} \text{fondoMonetarioComún(tiempo, fondoInicial(i, coop, rs, as, ps, es), coop, as, ps, es)}
+% }
+% \end{minipage}
+
+% \vspace{1cm}
+
+% \begin{minipage}[t]{17cm}
+% \aux{fondoMonetarioComun}{tiempo: \nat, fondoInicial: \float, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{\float}{%
+% 	res = \prod_{i=1}^{tiempo -1} 
+% 	\left(\sum\limits_{j=0}^{| eventos | - 1} \IfThenElse{coop[j] = true}{\frac{(as[j][es[j][i]] * ps[j][es[j][i]])}{n^(tiempo - 1)}}{\text{0}}\right) * fondoInicial
+% }
+% \end{minipage}
+
+% \vspace{1cm}
+
+% \begin{minipage}[t]{19cm}
+% \aux{fondoInicial}{ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{\float}{%
+% 	res = \sum\limits_{j=0}^{| rs | - 1} \IfThenElse{cooperan[ind] = true}{(rs[j] * as[j][es[j][0]] * ps[j][es[j][0]])}{\text{0}}
+% }
+% \end{minipage}
+
+% \aux{calcularUltimoRecurso}{\In i: \nat, \In rs : \TLista{\float}, \Inout coop : \TLista{\bool}, \In as : \TLista{\TLista{\float}}, \In ps : \TLista{\TLista{\float}}, \In es : \TLista{\TLista{\nat}}}{\float}{calcularRecursos(|es[i]|-1, rs, coop, as, ps, es)[i]}
+
+% \aux{calcularRecursos}{t, rs, coop, as, ps, es}{\float}{\paraTodo i:\ent, }
 
 \end{document}
