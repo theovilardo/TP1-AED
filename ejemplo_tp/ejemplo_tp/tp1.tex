@@ -250,9 +250,9 @@ Luego, para probar 2., tenemos que ver que la tripla de Hoare $\{I \wedge B \} S
 \\Luego, para probar 3., tenemos
 
 \begin{proof}
-	$ \{\neg B \wedge  I\} \implica i \geq |evs| \wedge 0 \geq i \leq |evs|	\implica i = |evs| \\$
+	$ \{\neg B \wedge  I\} \implica i \leq |evs| \wedge 0 \geq i \leq |evs|	\implica i = |evs| \\$
 	Luego, $I \wedge i = |evs| \implica res = rec * (ap_c pa_c)^{\#(subseq(evs, 0, i), T)} * (ap_s pa_s)^{\#(subseq(evs, 0, i), F)} \\
-	= rec * (ap_c pa_c)^{\#(subseq(evs, 0, |evs|), T)} * (ap_s pa_s)^{\#(subseq(evs, 0, |evs|), F)} = rec * (ap_c pa_c)^{\#(evs, T)} * (ap_s pa_s)^{\#(evs, F)} $ 
+	\equiv rec * (ap_c pa_c)^{\#(subseq(evs, 0, |evs|), T)} * (ap_s pa_s)^{\#(subseq(evs, 0, |evs|), F)} = rec * (ap_c pa_c)^{\#(evs, T)} * (ap_s pa_s)^{\#(evs, F)} $ 
 \end{proof}
 
 
