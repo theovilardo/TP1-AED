@@ -171,9 +171,8 @@
 \vspace{1cm}
 
 \pred{trayectoriaCorrecta}{s: \TLista{\TLista{\float}}, ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{%
-	|s[ind]| = |es[ind]| \land (\paraTodo{s[ind][j]}{\ent}{0 \leq i < |s[ind]-1| \implica s[ind][j] = calcularRecurso(s[j][i-1], ))
+	|s[ind]| = |es[ind]| \land (\paraTodo{s[ind][j]}{\ent}{0 \leq j < |s[ind]-1| \implica s[ind][j] = calcularRecurso(s[ind][j-1], coop, as[ind][es[ind][j]], ps[ind][es[ind][j]], calcularFondoComun(s, coop, as, ps, es, j), |s|)}
 }
-
 \vspace{1cm}
 
 %aqui va un espacio
