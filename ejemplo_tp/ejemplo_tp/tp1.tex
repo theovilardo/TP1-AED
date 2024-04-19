@@ -165,6 +165,14 @@
 	
 \pred{mismoTamañoListas2}{s1: \TLista{\float}, s2, s3: \TLista{\TLista{\float}}, s4: \TLista{\TLista{\nat}}, s5: \TLista{\bool}}{|s1| = |s2| \land |s2| = |s3| \land |s3| = |s4| \land |s4| = |s5|}
 
+\subtitulo{Ejercicio 1.5}
+\begin{proc}{individuoActualizaApuesta}{\In individuo: \nat, \In recursos : \TLista{\float}, \In cooperan : \TLista{\bool}, \Inout apuestas : \TLista{\TLista{\float}}, \In pagos : \TLista{\TLista{\float}}, \In eventos : \TLista{\TLista{\nat}}}
+	\newline \requiere {}
+	\asegura{}
+\end{proc}
+
+\pred{esMejorApuesta}{a_1,a_2: \TLista{\TLista{\float}},ind: \ent}{\existe[unalinea]{ts1,ts2:}{\TLista{\TLista{\float}}} {\yLuego trayectoriaCorrecta(ts1,a1) \land trayectoriaCorrecta(ts2,a2) \implica ts1[ind][|ts1[ind]|-1] \geq ts2[ind][|ts2[ind]|-1]}}
+
 \subsection{Demostración de correctitud}
 
 Se usaran las abreviaturas $rec = recurso$, $ap = apuesta$, $pa = pago$, $evs = eventos$.\\
