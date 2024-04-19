@@ -48,39 +48,6 @@
 %aqui iria un espacio
 \vspace{1cm}
 
-\begin{minipage}[t]{19cm}
-\aux{calcularFondoComun}{trayectorias : \TLista{\TLista{\mathds{R}}}, cooperan : \TLista{\bool}, apuestas : \TLista{\TLista{\mathds{R}}}, pagos : \TLista{\TLista{\mathds{R}}}, eventos : \TLista{\TLista{\mathds{N}}}}{\float}{%
-	%\begin{equation}
-	\sum\limits_{i=0}^{| trayectorias | - 1} \IfThenElse{cooperan[i] = true}{trayectorias[i][r - 1] * apuestas[i][eventos[i][r - 1]] * pagos[i][eventos[i][r - 1]]}{\text{0}}
-	\label{eq:1} 
-	%\end{equation}
-}
-\end{minipage}
-
-\vspace{1cm}
-
-\begin{minipage}[t]{19cm}
-\aux{calcularRecurso}{recurso: \float, coop: \bool, apuesta: \float, pago: \float, fondoComun: \float, cantidadDeJugadores: \nat}{\float}{%
-	res = dividirFondos(apuesta * pago * recurso, coop, fondoComun, cantidadDeJugadores)
-}
-\end{minipage}
-
-%aqui va un espacio
-\vspace{1cm}
-
-\begin{minipage}[t]{19cm}
-\aux{dividirFondos}{nuevoRecurso: \float, coop: \bool, fondoComun: \float, cantidadDeJugadores: \nat}{\float}{%
-	res = \IfThenElse{coop = true}{$\[\frac{\text{fondoComun}}{\text{cantidadDeJugadores}}\]$}{\text{$\frac{\text{fondoComun}}{\text{cantidadDeJugadores}} + \text{nuevoRecurso}$}}
-}
-\end{minipage}
-
-\begin{proc}{trayectoriaExtrañaEscalera}{\In trayectorias : \TLista{\float}}{\bool}
-	\requiere{|trayectorias| > 0}
-	\asegura{%
-		res = \existe{i}{\nat}{0 \leq i < |trayectoria| \yLuego trayectoria[i] > trayectoria[i+1] \wedge trayectoria[i] > trayectoria[i-1]} \land (\not\exists{j}:{\nat})(i = j \land 0 \leq j < |trayectoria| \yLuego trayectoria[j] > trayectoria[j+1] \wedge trayectoria[j] > trayectoria[j-1])
-		}
-\end{proc}
-
 \begin{minipage}{19cm}
 \begin{proc}{trayectoriaDeLosFrutosIndividualesALargoPlazo}{\Inout trayectorias : \TLista{\TLista{\mathds{R}}}, \In cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\mathds{R}}}, \In pagos : \TLista{\TLista{\mathds{R}}}, \In eventos : \TLista{\TLista{\mathds{N}}}}{}
 	%    \modifica{parametro1, parametro2,..}
@@ -149,6 +116,39 @@
 % \paraTodo{variable}{tipo}{expresion}
 % \existe{variable}{tipo}{expresion}
 % Pueden tener [unalinea] para que no se divida en varias lineas
+
+\begin{minipage}[t]{19cm}
+\aux{calcularFondoComun}{trayectorias : \TLista{\TLista{\mathds{R}}}, cooperan : \TLista{\bool}, apuestas : \TLista{\TLista{\mathds{R}}}, pagos : \TLista{\TLista{\mathds{R}}}, eventos : \TLista{\TLista{\mathds{N}}}}{\float}{%
+	%\begin{equation}
+	\sum\limits_{i=0}^{| trayectorias | - 1} \IfThenElse{cooperan[i] = true}{trayectorias[i][r - 1] * apuestas[i][eventos[i][r - 1]] * pagos[i][eventos[i][r - 1]]}{\text{0}}
+	\label{eq:1} 
+	%\end{equation}
+}
+\end{minipage}
+
+\vspace{1cm}
+
+\begin{minipage}[t]{19cm}
+\aux{calcularRecurso}{recurso: \float, coop: \bool, apuesta: \float, pago: \float, fondoComun: \float, cantidadDeJugadores: \nat}{\float}{%
+	res = dividirFondos(apuesta * pago * recurso, coop, fondoComun, cantidadDeJugadores)
+}
+\end{minipage}
+
+%aqui va un espacio
+\vspace{1cm}
+
+\begin{minipage}[t]{19cm}
+\aux{dividirFondos}{nuevoRecurso: \float, coop: \bool, fondoComun: \float, cantidadDeJugadores: \nat}{\float}{%
+	res = \IfThenElse{coop = true}{$\[\frac{\text{fondoComun}}{\text{cantidadDeJugadores}}\]$}{\text{$\frac{\text{fondoComun}}{\text{cantidadDeJugadores}} + \text{nuevoRecurso}$}}
+}
+\end{minipage}
+
+\begin{proc}{trayectoriaExtrañaEscalera}{\In trayectorias : \TLista{\float}}{\bool}
+	\requiere{|trayectorias| > 0}
+	\asegura{%
+		res = \existe{i}{\nat}{0 \leq i < |trayectoria| \yLuego trayectoria[i] > trayectoria[i+1] \wedge trayectoria[i] > trayectoria[i-1]} \land (\not\exists{j}:{\nat})(i = j \land 0 \leq j < |trayectoria| \yLuego trayectoria[j] > trayectoria[j+1] \wedge trayectoria[j] > trayectoria[j-1])
+		}
+\end{proc}
 
 \begin{proc}{individuoDecideSiCooperarONo}{\In individuo: \nat, \In recursos : \TLista{\float}, \Inout cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\float}}, \In pagos : \TLista{\TLista{\float}}, \In eventos : \TLista{\TLista{\nat}}}
 	\newline \requiere { {cooperan=old(cooperan)} \newline \land{0 \leq individuo<|cooperan|} \newline \land{apuestasValidas(apuestas,eventos)} \newline \land{mismoTamañoListas2(recursos,apuestas,pagos,eventos,old(cooperan))} \newline \land{mismoTamañoSublistas(apuestas,pagos)} \newline \land{eventosValidos(eventos,apuestas)}  }
