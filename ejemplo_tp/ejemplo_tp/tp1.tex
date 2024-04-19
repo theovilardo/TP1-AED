@@ -156,6 +156,7 @@
  \asegura{{|old(cooperan)|=|cooperan|} \newline \land{\paraTodo[unalinea]{i}{\ent}{0\leq i<|cooperan| \land i \neq individuo \implicaLuego old(cooperan[i]) = cooperan[i]}} }
 \end{proc}
 
+\pred{mismoTamañoListas2}{s1: \TLista{\float}, s2, s3: \TLista{\TLista{\float}}, s4: \TLista{\TLista{\nat}}, s5: \TLista{\bool}}{|s1| = |s2| \land |s2| = |s3| \land |s3| = |s4| \land |s4| = |s5|}
 \aux{calcularUltimoRecurso}{\In i: \nat, \In rs : \TLista{\float}, \Inout coop : \TLista{\bool}, \In as : \TLista{\TLista{\float}}, \In ps : \TLista{\TLista{\float}}, \In es : \TLista{\TLista{\nat}}}{\float}{calcularRecursos(|es[i]|-1, rs, coop, as, ps, es)[i]}
 
 \aux{calcularRecursos}{t, rs, coop, as, ps, es}{\float}{\paraTodo i:\ent, }
