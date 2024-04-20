@@ -260,39 +260,71 @@ Luego, para probar 2., tenemos que ver que la tripla de Hoare $\{I \wedge B \} S
 
 \vspace{1cm}
 
-% \begin{minipage}[t]{19cm}
-% \aux{calculaRecursoFinalCooperando}{tiempo: \nat, ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}, cantidadDeJugadores: \nat}{\float}{%
-% 	res = $\[\frac{\text{fondoMonetarioComún(tiempo, fondoInicial(ind, coop, rs, as, ps, es), coop, ps, es, as)}}{\text{cantidadDeJugadores}}\]$
-% }
-% \end{minipage}
+\section{Anexo}
 
-% \vspace{1cm}
+\begin{minipage}[t]{18cm}
+    Durante el desarrollo del trabajo práctico nos encontramos con varios desafíos, entre ellos, el más complicado de superar fue especificar de la manera esperada. Durante la primera etapa de la carrera nos la pasamos calculando y programando, es por eso que naturalmente nos inclinamos a pensar de esa manera. Es un regalo que nos dio esta materia el poder de la abstracción, el cual confiamos haber adquirido.
 
-% \begin{minipage}[t]{19cm}
-% \aux{calculaRecursoFinalNoCooperando}{tiempo: \nat, ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{\float}{%
-% 	res = \sum\limits_{i=0}^{| tiempo | - 1} \text{fondoMonetarioComún(tiempo, fondoInicial(i, coop, rs, as, ps, es), coop, as, ps, es)}
-% }
-% \end{minipage}
+    Adjuntamos a continuación, nuestra primera versión del ejercicio 1.4 La misma no es parte de la entrega final si no un simple testigo del progreso que hicimos como especificadores.
+\end{minipage}
+\vspace{1cm}
+\begin{proc}{individuoDecideSiCooperarONo}{\In individuo: \nat, \In recursos: \TLista{\float}, \Inout cooperan: \TLista{\bool}, \In apuestas:
+\TLista{\TLista{\float}}, \In pagos: \TLista{\TLista{\float}}, \In eventos: \TLista{\TLista{\nat}}}{}
+	\requiere{funcionLauti()}
+	\asegura{%
+		cooperan[individuo] = convieneCooperar(individuo, recursos, old{(trayectorias)}, apuestas, pagos, eventos)
+	}
+\end{proc}
 
-% \vspace{1cm}
+%aqui va un espacio
+\vspace{1cm}
 
-% \begin{minipage}[t]{17cm}
-% \aux{fondoMonetarioComun}{tiempo: \nat, fondoInicial: \float, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{\float}{%
-% 	res = \prod_{i=1}^{tiempo -1} 
-% 	\left(\sum\limits_{j=0}^{| eventos | - 1} \IfThenElse{coop[j] = true}{\frac{(as[j][es[j][i]] * ps[j][es[j][i]])}{n^(tiempo - 1)}}{\text{0}}\right) * fondoInicial
-% }
-% \end{minipage}
+\begin{minipage}[t]{17cm}
+\aux{convieneCooperar}{ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{\bool}{%
+	res = \IfThenElse{calculaRecursoFinalCooperando(|es[ind]| - 1, rs, ind, coop, as, es, ps, |rs|) \geq calculaRecursoFinalNoCooperando(|es[ind]| - 1, rs, ind, coop, as, es, ps, |rs|)}{true}{false}
+}
+\end{minipage}
 
-% \vspace{1cm}
+%aqui va un espacio
+\vspace{1cm}
 
-% \begin{minipage}[t]{19cm}
-% \aux{fondoInicial}{ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{\float}{%
-% 	res = \sum\limits_{j=0}^{| rs | - 1} \IfThenElse{cooperan[ind] = true}{(rs[j] * as[j][es[j][0]] * ps[j][es[j][0]])}{\text{0}}
-% }
-% \end{minipage}
+\begin{minipage}[t]{19cm}
+\aux{calculaRecursoFinalCooperando}{tiempo: \nat, ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}, cantidadDeJugadores: \nat}{\float}{%
+res = \frac{\text{fondoMonetarioComún(tiempo, fondoInicial(ind, coop, rs, as, ps, es), coop, ps, es, as)}}{\text{cantidadDeJugadores}}}
+\end{minipage}
 
-% \aux{calcularUltimoRecurso}{\In i: \nat, \In rs : \TLista{\float}, \Inout coop : \TLista{\bool}, \In as : \TLista{\TLista{\float}}, \In ps : \TLista{\TLista{\float}}, \In es : \TLista{\TLista{\nat}}}{\float}{calcularRecursos(|es[i]|-1, rs, coop, as, ps, es)[i]}
+%aqui va un espacio
+\vspace{1cm}
 
-% \aux{calcularRecursos}{t, rs, coop, as, ps, es}{\float}{\paraTodo i:\ent, }
+\begin{minipage}[t]{19cm}
+\aux{calculaRecursoFinalNoCooperando}{tiempo: \nat, ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{\float}{%
+	res = \sum\limits_{i=0}^{| tiempo | - 1} \text{fondoMonetarioComún(tiempo, fondoInicial(i, coop, rs, as, ps, es), coop, as, ps, es)}
+}
+\end{minipage}
+
+%aqui va un espacio
+\vspace{1cm}
+
+\begin{minipage}[t]{17cm}
+\aux{fondoMonetarioComun}{tiempo: \nat, fondoInicial: \float, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{\float}{%
+	res = \prod_{i=1}^{tiempo -1} 
+	\left(\sum\limits_{j=0}^{| eventos | - 1} \IfThenElse{coop[j] = true}{\frac{(as[j][es[j][i]] * ps[j][es[j][i]])}{n^(tiempo - 1)}}{\text{0}}\right) * fondoInicial
+}
+\end{minipage}
+
+%aqui va un espacio
+\vspace{1cm}
+
+\begin{minipage}[t]{19cm}
+\aux{fondoInicial}{ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{\float}{%
+	res = \sum\limits_{j=0}^{| rs | - 1} \IfThenElse{cooperan[ind] = true}{(rs[j] * as[j][es[j][0]] * ps[j][es[j][0]])}{\text{0}}
+}
+\end{minipage}
+
+%aqui va un espacio
+\vspace{1cm}
+
+“Un gran poder, conlleva una gran responsabilidad; Y una gran especificación, una gran cantidad de predicados”. \\
+-Grupo Caballo
 
 \end{document}
