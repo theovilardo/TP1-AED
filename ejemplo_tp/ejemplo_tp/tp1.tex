@@ -2,6 +2,10 @@
 
 \input{AEDmacros}
 \usepackage{caratula} % Version modificada para usar las macros de algo1 de ~> https://github.com/bcardiff/dc-tex
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage[document]{ragged2e}
 
 
 \titulo{Descripci\'on del tp}
@@ -246,6 +250,79 @@ Luego, para probar 2., tenemos que ver que la tripla de Hoare $\{I \wedge B \} S
 		wp(S, I) \equiv 0 \leq i < |evs|  \yLuego ((evs[i] \wedge res = rec *(ap_c * pa_c)^{n - 1} * (ap_s * pa_s)^m) \vee 
 		(\neg evs[i]) \wedge res = rec *(ap_c * pa_c)^n * (ap_s * pa_s)^{m - 1})
 	\end{equation}
+ 	    \begin{itemize}
+    \item{Caso eventos[i + 1] = true: \\
+    El caso en la rama del true: Reemplazamos el res de $I \land B$
+    \hspace{0.1cm}
+    \text{en el res de la rama true de wp(S, I). Además {n + 1 = $n'$,}}\\ \text{porque hay una aparicion mas de true en eventos para la subseq(evs, 0, i+1) y m = $m'$ ya que no hay una aparicion} \\ \text{mas de false en la subseq(evs, 0, i+1).} \newline
+    \hspace{0.8cm}
+    $eventos[i] = true \yLuego recurso*(apuesta[c]*pago[c]) ^{n} * (apuesta[s]*pago[s]) ^{m} = recurso * (apuesta[c]*pago[c])^{n + 1 - 1} * (apuesta[s]*pago[s])^{m}$ $\equiv true \yLuego$ $(apuesta[c]*pago[c])^{n} = (apuesta[c]*pago[c])^{n}$ $\equiv 1 = 1 \equiv true \yLuego$ \text{vale la rama true.}}
+    \end{itemize}
+    \begin{itemize}
+    \item{Caso eventos[i + 1] = false: \\
+    El caso entra en la rama del false: Reemplazamos el res de $I \land B$ \hspace{0.1cm}
+    \text{en el res de la rama false de wp(S, I).
+    Además: {n = $n'$,}}\\ \text{porque NO hay una aparicion mas de false en eventos para la subseq(evs, 0, i+1) y m+1 = $m'$ ya que si hay una aparicion} \\ \text{mas de true en la subseq(evs, 0, i+1).} \newline
+    \hspace{0.8cm}
+    $eventos[i] = false \yLuego recurso*(apuesta[c]*pago[c]) ^{n} *(apuesta[s]*pago[s]) ^{m} = recurso*(apuesta[c]*pago[c]) ^{n} *(apuesta[s]*pago[s]) ^{m +1 - 1}$ $\equiv true \yLuego$ $(apuesta[s]*pago[s])^{m} = (apuesta[s]*pago[s])^{m}$ $\equiv 1 = 1 \equiv true$
+    }
+    \end{itemize}
+    \begin{itemize}
+    \item{%
+     Luego, de $I \land B: 0 \leq i < |eventos|$ \hspace{0.2cm} \text{quiero ver que vale} \hspace{0.2cm} $0 \leq i < |eventos|$ \hspace{0.2cm} \text{de wp(S, I)} \\
+     $0 \leq i < |eventos| \implica 0 \leq i < |eventos| \equiv true$, \hspace{0.2cm} \text{por lo que vale el cuerpo fuera de la disyunción}. \\
+     \vspace{0.5cm}
+    \hspace{4.2cm} Vale $I \land B \implica wp(S, I)$ \hspace{0.2cm} entonces \hspace{0.2cm} $\{ I \land B \}$ \hspace{0.1cm}S\hspace{0.1cm} \{ I \}
+    }
+    \end{itemize}
+    \vspace{0.8cm}
+    \begin{minipage}{3cm}
+    \fbox{%
+    \parbox{\textwidth}{
+        $I \land fv \leq 0 \implica \neg B$
+    }}
+    \end{minipage}
+    \begin{itemize}
+    \vspace{0.2cm}
+    \item fv = ${|eventos|}$ - i: ${|eventos|}$ es fijo e ``i'' va aumentando de a 1 en la implementacion, por lo que fv decrece y termina.
+    \item $\neg  B \equiv$ \hspace{0.2cm} i \hspace{0.2cm} $\geq$
+    \hspace{0.2cm}
+    ${|eventos|}$
+    \item {$fv \leq 0 \equiv$ \hspace{0.1cm} ${|eventos|} - i$ $\leq 0 \equiv$ \hspace{0.1cm} ${|eventos|} \leq i$}, \hspace{0.2cm} entonces,
+    \vspace{0.2cm} $fv \leq 0 \implica \neg B \equiv$ \vspace{0.2cm} ${|eventos|} \leq i \implica i \geq {|eventos|} \equiv true$
+    \begin{itemize}
+              \item En este caso no fue necesario mirar la informacion del invariante
+        \end{itemize}
+    \end{itemize}
+    \vspace{0.5cm}
+    \hspace{7.2cm} Vale $I \land fv \leq 0 \implica \neg B$ \\
+    \vspace{0.5cm}
+    \begin{minipage}{5cm}
+    \fbox{%
+    \parbox{\textwidth}{%
+        $\{ I \land B \land fv = v_0\}$ \hspace{0.1cm} S \hspace{0.1cm} $\{ fv < v_0 \}$}
+    }
+    \end{minipage}
+\end{proof}
+\end{proof}
+\text{ $wp(S, fv < v_0) \equiv$ ${wp(S1, wp(S2, fv < v_0))}$} \\
+    \vspace{0.2cm}
+    \begin{minipage}[t]{18cm}
+        \begin{itemize}
+        \item {$wp(S2, fv < v_0) \equiv def(i + 1) \yLuego |eventos| -i-1 < v_0$}
+        \item {$wp(S1, wp(S2, fv < v_0)) \equiv wp(S1, |eventos|-i-1 < v_0) \equiv
+        def(eventos[i]) \yLuego (eventos[i] = true \land wp(res \coloneq res * apuesta[c] * pagos[c], |eventos| -i-1 < v_0)) \lor (eventos[i] = false \land wp(res \coloneq res * apuestas[s] * pagos[s], |eventos|-i-1 < v_0)) \equiv 0 \leq i \hspace{0.1cm} |eventos| \land |eventos| -i-1 < v_0 \hspace{0.1cm} \yLuego \hspace{0.1cm} (eventos[i] = true \lor eventos[i] = false) \equiv 0 \leq i < |eventos| \lor |eventos| \land |eventos| -i-1 < v_0 \equiv wp(S, fv < v_0)$}
+        \item {$I \land B \land fv = v_0 \equiv 0 \leq i < |eventos| \land res = recurso * (apuesta[c]*pagos[c])^{n} * (apuestas[s]* pagos[s])^{m} \land |eventos| - i = v_0$}
+        \begin{itemize}
+              \item {$0 \leq i < |eventos| \implica 0 \leq i < |eventos| \equiv true$}
+              \item {$|eventos| - i = v_0 \implica |eventos| -i-1 < v_0 \equiv v_0 - 1 < v_0 \equiv -1 < 0 \equiv true$}
+        \end{itemize}
+        \vspace{0.5cm}
+        \hspace{2.1cm} Vale $I \land B \land fv = v_0 \implica wp(S, fv < v_0), entonces vale \{I \land B \land fv = v_0\} \hspace{0.1cm} S \hspace{0.1cm} \{fv < v_0\}$
+        \end{itemize}
+    \end{minipage}
+\vspace{1cm}
+
 
 \end{proof}
 
