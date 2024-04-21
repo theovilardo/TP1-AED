@@ -8,8 +8,8 @@
 \usepackage[document]{ragged2e}
 
 
-\titulo{Descripci\'on del tp}
-\subtitulo{Subtítulo del tp}
+\titulo{Trabajo Práctico N1}
+\subtitulo{Especificacion y WP}
 
 \fecha{\today}
 
@@ -30,20 +30,11 @@
 
 \maketitle
 
-\section{Ejemplo de sección}
+\section{Especificación}
 
-\subsection{Macros de la cátedra para especificar}
+\vspace{0.6cm}
 
-%ejemplo proc
-% \begin{proc}{nombre}{\In paramIn : \nat, \Inout paramInout : \TLista{\ent}}{tipoRes}
-% 	%    \modifica{parametro1, parametro2,..}
-% 	\requiere{expresionBooleana1}
-% 	\asegura{expresionBooleana2}
-% 	\aux{auxiliar1}{parametros}{tipoRes}{expresion}
-% 	\pred{pred1}{parametros}{expresion} 
-% \end{proc}
-
-\subtitulo{Ejercicio 1.1}
+\subsection{Ejercicio 1}
 
 \begin{proc}{redistribucionDeLosFrutos}{\In recursos : \TLista{\float}, \In cooperan : \TLista{\bool}}{\TLista{\float}}
 	\requiere{|recursos| = |cooperan|}
@@ -53,7 +44,7 @@
 
 \vspace{1cm}
 
-\subtitulo{Ejercicio 1.2}
+\subsection{Ejercicio 2}
 
 \begin{minipage}{19cm}
 \begin{proc}{trayectoriaDeLosFrutosIndividualesALargoPlazo}{\Inout trayectorias : \TLista{\TLista{\mathds{R}}}, \In cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\mathds{R}}}, \In pagos : \TLista{\TLista{\mathds{R}}}, \In eventos : \TLista{\TLista{\mathds{N}}}}{}
@@ -64,7 +55,7 @@
 		|trayectorias| = old{(trayectorias)} \land trayectoriasFinalesValidas(trayectorias, eventos)
 	}
 	\asegura{%
-	\paraTodo[unalinea]{j}{\ent}{0 \leq j < \left| trayectorias |\right} \implica {trayectorias[j][0] = old{(trayectorias[j][0])}}
+	\paraTodo[unalinea]{j}{\ent}{0 \leq j < |trayectorias|} \implica {trayectorias[j][0] = old{(trayectorias[j][0])}}
 	} 
 	\asegura{%
 	\paraTodo[unalinea]{j, r}{\ent}{0 \leq j < |trayectorias|}{\implicaLuego
@@ -131,12 +122,12 @@
 \vspace{1cm}
 
 \begin{minipage}[t]{19cm}
-\aux{dividirFondos}{nuevoRecurso: \float, coop: \bool, fondoComun: \float, cantidadDeJugadores: \nat}{\float}{%
-	res = \IfThenElse{coop = true}{$\[\frac{\text{fondoComun}}{\text{cantidadDeJugadores}}\]$}{\text{$\frac{\text{fondoComun}}{\text{cantidadDeJugadores}} + \text{nuevoRecurso}$}}
+\aux{dividirFondos}{nuevoRecurso: \float, coop: \bool, fondoComun: \float, cantidadDeJugadores: \nat}{\float}{
+	res = \IfThenElse{coop = true}{\frac{\text{fondoComun}}{\text{cantidadDeJugadores}}}{\text{$\frac{\text{fondoComun}}{\text{cantidadDeJugadores}} + \text{nuevoRecurso}$}}
 }
 \end{minipage}
 
-\subtitulo{Ejercicio 1.3}
+\subsection{Ejercicio 3}
 
 \begin{proc}{trayectoriaExtrañaEscalera}{\In trayectorias : \TLista{\float}}{\bool}
 	\requiere{|trayectorias| > 0}
@@ -145,11 +136,17 @@
 		}
 \end{proc}
 
-\subtitulo{Ejercicio 1.4}
+\subsection{Ejercicio 4}
 
 \begin{proc}{individuoDecideSiCooperarONo}{\In individuo: \nat, \In recursos : \TLista{\float}, \Inout cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\float}}, \In pagos : \TLista{\TLista{\float}}, \In eventos : \TLista{\TLista{\nat}}}
-	\newline \requiere {{0 \leq individuo < |cooperan|} \newline \land{apuestasValidas(apuestas,eventos)} \newline \land{mismoTamañoListas2(recursos,apuestas,pagos,eventos,cooperan)} \newline \land{mismoTamañoSublistas(apuestas,pagos)} \newline \land{eventosValidos(eventos,apuestas)}  }
-	\asegura{cooperan[individuo] = convieneCooperar(individuo, recursos, old{(trayectorias)}, apuestas, pagos, eventos)}
+    \newline
+    \requiere {
+    $0 \leq individuo < |cooperan|$ \newline
+    $\land \hspace{0.2cm} apuestasValidas(apuestas,eventos)$ \newline
+    $\land \hspace{0.2cm}mismoTamañoListas2(recursos,apuestas,pagos,eventos,cooperan)$ \newline
+    $\land \hspace{0.2cm} mismoTamañoSublistas(apuestas,pagos)$ \newline
+    $\land \hspace{0.2cm} eventosValidos(eventos,apuestas)$}
+    \asegura{cooperan[individuo] = convieneCooperar(individuo, recursos, old{(trayectorias)}, apuestas, pagos, eventos)}
     \asegura{{|old(cooperan)|=|cooperan|} \newline \land{\paraTodo[unalinea]{i}{\ent}{0\leq i < |cooperan| \land i \neq individuo \implicaLuego old(cooperan[i]) = cooperan[i]}} }
 \end{proc}
 
@@ -161,47 +158,64 @@
 		}
 	\end{minipage}
 \vspace{1cm}
-	
-\pred{trayectoriaCorrecta}{s: \TLista{\TLista{\float}}, ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{%
+
+\begin{minipage}[t]{20cm}
+    \pred{trayectoriaCorrecta}{s: \TLista{\TLista{\float}}, ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{%
 	|s[ind]| = |es[ind]| \land \paraTodo{s[ind][j]}{\ent}{0 \leq j < |s[ind]-1| \implica s[ind][j] = calcularRecurso(s[ind][j-1], coop, as[ind][es[ind][j]], ps[ind][es[ind][j]], calcularFondoComun(s, coop, as, ps, es, j), |s|)}
 }
+\end{minipage}
 \vspace{1cm}
 	
 \pred{mismoTamañoListas2}{s1: \TLista{\float}, s2, s3: \TLista{\TLista{\float}}, s4: \TLista{\TLista{\nat}}, s5: \TLista{\bool}}{|s1| = |s2| \land |s2| = |s3| \land |s3| = |s4| \land |s4| = |s5|}
 
-\subtitulo{Ejercicio 1.5}
+\subsection{Ejercicio 5}
+
+
 \begin{proc}{individuoActualizaApuesta}{\In individuo: \nat, \In recursos : \TLista{\float}, \In cooperan : \TLista{\bool}, \Inout apuestas : \TLista{\TLista{\float}}, \In pagos : \TLista{\TLista{\float}}, \In eventos : \TLista{\TLista{\nat}}}
-	\newline \requiere {{0 \leq individuo < |apuestas|} \newline \land{apuestasValidas(apuestas,eventos)} \newline \land{mismoTamañoListas2(recursos,apuestas,pagos,eventos,cooperan)} \newline \land{mismoTamañoSublistas(apuestas,pagos)} \newline \land{eventosValidos(eventos,apuestas)}  }
-	\asegura{\paraTodo{s}{\TLista{\float}}(apuestaValida(s) \implica esMejorApuesta(apuestas[individuo], s, individuo, recursos, cooperan, pagos, eventos))}
- 	\asegura{|old(apuestas)|=|apuestas| \newline \land {\paraTodo[unalinea]{i}{\ent}{0\leq i < |apuestas| \implicaLuego {\paraTodo[unalinea]{j}{\ent}{0\leq j < |apuestas[i]| \land apuestas[i] \neq apuestas[individuo]} \implicaLuego{apuestas[i][j]=old(apuestas[i][j])} }}  }  }
+        \newline
+        \requiere {
+            ${0 \leq individuo < |apuestas|}$ \newline \land{apuestasValidas(apuestas,eventos)} \newline \land{mismoTamañoListas2(recursos,apuestas,pagos,eventos,cooperan)} \newline \land{mismoTamañoSublistas(apuestas,pagos)} \newline \land{eventosValidos(eventos,apuestas)}
+        }
+	\asegura{
+            \paraTodo{s}{\TLista{\float}}{\hspace{0.35cm} apuestaValida(s) \implica esMejorApuesta(apuestas[individuo], s, individuo, recursos, cooperan, pagos, eventos)}
+        }
+        \asegura{ \hspace{0.2cm}
+            |old{(apuestas)}|=|apuestas| \hspace{0.2cm} \land \\ \vspace{0.1cm} \hspace{0.2cm} {\paraTodo[unalinea]{i}{\ent}{$0\leq i < |apuestas|$ \implicaLuego {\paraTodo[unalinea]{j}{\ent}{0\leq j < |apuestas[i]| \land apuestas[i] \neq apuestas[individuo]} \\
+            \hspace{0.3cm} \implicaLuego \hspace{0.2cm} {apuestas[i][j]=old(apuestas[i][j])}\\}}}
+        }
 \end{proc}
 
-\pred{esMejorApuesta}{a_1,a_2: \TLista{\TLista{\float}},ind: \ent, rs \TLista{\float}, coop : \TLista{\bool}, ps : \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{%
-	\existe[unalinea]{ts_1,ts_2:}{\TLista{\TLista{\float}}} {\yLuego trayectoriaCorrecta(ts_1, ind, rs, coop, a_1, ps, es) \land trayectoriaCorrecta(ts_2, ind, rs, coop, a_2, ps, es) \\
-	\implica ts_1[ind][|ts_1[ind]|-1] \geq ts_2[ind][|ts_2[ind]|-1]}}
-\subsection{Demostración de correctitud}
+\vspace{0.6cm}
+
+%\begin{minipage}[t]{19cm}
+    \pred{esMejorApuesta}{a_1,a_2: \TLista{\TLista{\float}},ind: \ent, rs \TLista{\float}, coop : \TLista{\bool}, ps : \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{%
+    \existe[unalinea]{ts_1,ts_2:}{\TLista{\TLista{\float}}} {\yLuego \hspace{0.2cm} trayectoriaCorrecta(ts_1, ind, rs, coop, a_1, ps, es) \\ \hspace{0.2cm} \hspace{0.4cm} \land \hspace{0.2cm} trayectoriaCorrecta(ts_2, ind, rs, coop, a_2, ps, es)
+    \implica ts_1[ind][|ts_1[ind]|-1] \geq ts_2[ind][|ts_2[ind]|-1]}}
+%\end{minipage}
+ 
+\section{Demostración de correctitud}
 
 Se usaran las abreviaturas $rec = recurso$, $ap = apuesta$, $pa = pago$, $evs = eventos$.\\
-\begin{equation}
+\begin{equation*}
     P \equiv ap_c + ap_s = 1 \land pa_c > 0 \land pa_s > 0 \land ap_c > 0 \land ap_s > 0 \land recurso > 0
-\end{equation}
-\begin{equation}
+\end{equation*}
+\begin{equation*}
     Q \equiv  res = rec (ap_c pa_c)^{\# apariciones(eeventos, T)}(ap_s pa_s)^{\#apariciones(eventos, F)}
-\end{equation}
+\end{equation*}
 Se propone el siguiente requiere (Pc) y asegura (Qc) del ciclo:
-\begin{equation}
+\begin{equation*}
     Pc \equiv res=recursos \land i=0 \land ap_c + ap_s = 1 \land pa_c > 0 \land pa_s > 0 \land ap_c > 0 \land ap_s > 0 \land recurso > 0
-\end{equation}
-\begin{equation}
+\end{equation*}
+\begin{equation*}
     Qc \equiv res = rec (ap_c pa_c)^{\# apariciones(eeventos, T)}(ap_s pa_s)^{\#apariciones(eventos, F)} \equiv Q
-\end{equation}
+\end{equation*}
 Se demuestra que el Pc es correcto para iniciar el ciclo con la siguiente demostracion: \newline P \implica $wp(res:=recursos;i:=0,Pc)$ \newline $wp(res:=recursos;i:=0,Pc) \equiv wp(res:=recursos,wp(i:=0,Pc))$ \newline $wp(i:=0,Pc) \equiv def(0) \yLuego Pc_{0}^i \equiv res=recursos \land ap_c + ap_s = 1 \land pa_c > 0 \land pa_s > 0 \land ap_c > 0 \land ap_s > 0 \land recurso > 0$ \newline $wp(res:=recursos,wp(i:=0,Pc)) \equiv wp(res:=recursos,Pc_{0}^i) \equiv def(recursos) \yLuego (Pc_{0}^i)_{recursos}^{res} \equiv ap_c + ap_s = 1 \land pa_c > 0 \land pa_s > 0 \land ap_c > 0 \land ap_s > 0 \land recurso > 0$ \newline
 Quiero probar que \newline P \implica $wp(res:=recursos;i:=0,Pc)$ \newline \equiv P \implica P \equiv true \newline
 
 Para probar la correctitud parcial del ciclo, se propone el invariante:
-\begin{equation}
+\begin{equation*}
 	I \equiv 0 \leq i < |evs| \wedge res = rec (ap_c pa_c)^{\# apariciones(subseq(0, i, evs), T)}(ap_s pa_s)^{\#apariciones(subseq(0, i, evs), F)}
-\end{equation}	
+\end{equation*}	
 
 Así, por el teorema del invariante, el ciclo $while(B) \, do \, S$ es parcialmente correcto respecto $(P_c, Q_c) $ sii:
 
@@ -213,17 +227,17 @@ Así, por el teorema del invariante, el ciclo $while(B) \, do \, S$ es parcialme
 
 Para probar 1. tenemos $P_c = i=0 \wedge res=rec \wedge ap_c + ap_s = 1 \wedge p_c > 0 \wedge p_s > 0 \wedge ap_c > 0 \wedge ap_s > 0 \wedge rec > 0$ y queremos ver que \\ $0 \leq i < |evs| \wedge res = rec (ap_c pa_c)^{\# apariciones(subseq(evs, 0, i), T)}(ap_s pa_s)^{\#apariciones(subseq(evs, 0, i), F)}$
 
-\begin{proof}
+\begin{proof*}
     $P_c \implica  i = 0 \implica 0 \leq i < |evs| \wedge subseq(evs, 0, i) \equiv subseq(evs, 0, 0) \equiv \lvacia \\
     \implica \#(subseq(evs, 0, i), T) = \#(subseq(evs, 0, i), F) \equiv 0  \\
     \implica (ap_c pa_c)^{\#(subseq(evs, 0, i), T)} = (ap_s pa_s)^{\#(subseq(evs, 0, i), F)} \equiv 1 \\
 	\implica rec * (ap_c pa_c)^{\#(subseq(evs, 0, i), T)} * (ap_s pa_s)^{\#(subseq(evs, 0, i), F)} \equiv rec $\\
     Además, $P_c$ \implica $res = rec$. Luego, $res = rec * (ap_c pa_c)^{\#(subseq(evs, 0, i), T)} * (ap_s pa_s)^{\#(subseq(evs, 0, i), F)} \wedge 0 \leq i < |evs|$, que es el invariante.
-\end{proof}
+\end{proof*}
 
 Luego, para probar 2., tenemos que ver que la tripla de Hoare $\{I \wedge B \} S \{I\}$ es válida, es decir, probar que $wp(S, I) \implica \{I \wedge B \}$.\\
 
-\begin{proof}
+\begin{proof*}
     Tenemos que $S \equiv S1; S2$, con $S1 \equiv \IfThenElse{eventos[i]}{res:=res * ap_c * p_c}{res:=res*ap_s*p_s}$ y $S2 \equiv i:= i+1$\\
 	$wp(S, I) \equiv wp(S1; S2, I) \equiv wp(S1, wp(S2, I))$.
 	Caclulemos primero $wp(S2, I)$. \\ 
@@ -243,30 +257,36 @@ Luego, para probar 2., tenemos que ver que la tripla de Hoare $\{I \wedge B \} S
 	$\equiv 0\leq i+1 \leq |evs| \wedge res = rec *(ap_c * pa_c)^{\#(subseq(evs, 0, i+1), true)} * (ap_s * pa_s)^{\#(subseq(evs, 0, i+1), false) - 1}$\\
 	Reemplazando $wp_1, wp_2$ respectivamente, llegamos a \\
 	$wp(S, I) \equiv 0 \leq i < |evs| \yLuego ((evs[i] = true \wedge 0\leq i+1 \leq |evs| \wedge res = rec *(ap_c * pa_c)^{n - 1} * (ap_s * pa_s)^m) \vee $\\
-	$(evs[i] = false) \wedge 0\leq i+1 \leq |evs| \wedge res = rec *(ap_c * pa_c)^n} * (ap_s * pa_s)^{m - 1})$\\
+	$(evs[i] = false) \wedge 0\leq i+1 \leq |evs| \wedge res = rec *(ap_c * pa_c)^{n} * (ap_s * pa_s)^{m - 1})$\\
 	con $n = \#apariciones(subseq(evs, 0, i+1), true) \wedge m = \#apariciones(subseq(evs, 0, i+1), false)$\\
 	Sacando $0 \leq i+1 \leq |evs|$ como factor común de la disyunción y observando que $0 \leq i < |evs| \implica 0 \leq i + 1 \leq |evs|$, resulta:
-	\begin{equation}
+	\begin{equation*}
 		wp(S, I) \equiv 0 \leq i < |evs|  \yLuego ((evs[i] \wedge res = rec *(ap_c * pa_c)^{n - 1} * (ap_s * pa_s)^m) \vee 
 		(\neg evs[i]) \wedge res = rec *(ap_c * pa_c)^n * (ap_s * pa_s)^{m - 1})
-	\end{equation}
- 	    \begin{itemize}
-    \item{Caso eventos[i + 1] = true: \\
-    El caso en la rama del true: Reemplazamos el res de $I \land B$
-    \hspace{0.1cm}
-    \text{en el res de la rama true de wp(S, I). Además {n + 1 = $n'$,}}\\ \text{porque hay una aparicion mas de true en eventos para la subseq(evs, 0, i+1) y m = $m'$ ya que no hay una aparicion} \\ \text{mas de false en la subseq(evs, 0, i+1).} \newline
-    \hspace{0.8cm}
-    $eventos[i] = true \yLuego recurso*(apuesta[c]*pago[c]) ^{n} * (apuesta[s]*pago[s]) ^{m} = recurso * (apuesta[c]*pago[c])^{n + 1 - 1} * (apuesta[s]*pago[s])^{m}$ $\equiv true \yLuego$ $(apuesta[c]*pago[c])^{n} = (apuesta[c]*pago[c])^{n}$ $\equiv 1 = 1 \equiv true \yLuego$ \text{vale la rama true.}}
-    \end{itemize}
-    \begin{itemize}
-    \item{Caso eventos[i + 1] = false: \\
-    El caso entra en la rama del false: Reemplazamos el res de $I \land B$ \hspace{0.1cm}
-    \text{en el res de la rama false de wp(S, I).
-    Además: {n = $n'$,}}\\ \text{porque NO hay una aparicion mas de false en eventos para la subseq(evs, 0, i+1) y m+1 = $m'$ ya que si hay una aparicion} \\ \text{mas de true en la subseq(evs, 0, i+1).} \newline
-    \hspace{0.8cm}
-    $eventos[i] = false \yLuego recurso*(apuesta[c]*pago[c]) ^{n} *(apuesta[s]*pago[s]) ^{m} = recurso*(apuesta[c]*pago[c]) ^{n} *(apuesta[s]*pago[s]) ^{m +1 - 1}$ $\equiv true \yLuego$ $(apuesta[s]*pago[s])^{m} = (apuesta[s]*pago[s])^{m}$ $\equiv 1 = 1 \equiv true$
+	\end{equation*}
+    \begin{minipage}[t]{19cm}
+        \begin{itemize}
+            \item{Caso eventos[i + 1] = true: \\
+            El caso en la rama del true: Reemplazamos el res de $I \land B$
+            \hspace{0.1cm}
+            \text{en el res de la rama true de wp(S, I). Además {n + 1 = $n'$,}}\\ \text{porque hay una aparicion mas de true en eventos para la subseq(evs, 0, i+1) y m = $m'$ ya que no hay una aparicion} \\ \text{mas de false en la subseq(evs, 0, i+1).} \newline
+            \hspace{0.8cm}
+            $eventos[i] = true \yLuego recurso*(apuesta[c]*pago[c]) ^{n} * (apuesta[s]*pago[s]) ^{m} = recurso * (apuesta[c]*pago[c])^{n + 1 - 1} * (apuesta[s]*pago[s])^{m}$ $\equiv true \yLuego$ $(apuesta[c]*pago[c])^{n} = (apuesta[c]*pago[c])^{n}$ $\equiv 1 = 1 \equiv true \yLuego$ \text{vale la rama true.}}
+        \end{itemize}
+    \end{minipage}
+    
+    \begin{minipage}[t]{19cm}
+        \begin{itemize}
+        \item{Caso eventos[i + 1] = false: \\
+        El caso entra en la rama del false: Reemplazamos el res de $I \land B$ \hspace{0.1cm}
+        \text{en el res de la rama false de wp(S, I).
+        Además: {n = $n'$,}}\\ \text{porque NO hay una aparicion mas de false en eventos para la subseq(evs, 0, i+1) y m+1 = $m'$ ya que si hay una aparicion} \\ \text{mas de true en la subseq(evs, 0, i+1).} \newline
+        \hspace{0.8cm}
+        $eventos[i] = false \yLuego recurso*(apuesta[c]*pago[c]) ^{n} *(apuesta[s]*pago[s]) ^{m} = recurso*(apuesta[c]*pago[c]) ^{n} *(apuesta[s]*pago[s]) ^{m +1 - 1}$ $\equiv true \yLuego$ $(apuesta[s]*pago[s])^{m} = (apuesta[s]*pago[s])^{m}$ $\equiv 1 = 1 \equiv true$
     }
     \end{itemize}
+    \end{minipage}
+    
     \begin{itemize}
     \item{%
      Luego, de $I \land B: 0 \leq i < |eventos|$ \hspace{0.2cm} \text{quiero ver que vale} \hspace{0.2cm} $0 \leq i < |eventos|$ \hspace{0.2cm} \text{de wp(S, I)} \\
@@ -303,8 +323,8 @@ Luego, para probar 2., tenemos que ver que la tripla de Hoare $\{I \wedge B \} S
         $\{ I \land B \land fv = v_0\}$ \hspace{0.1cm} S \hspace{0.1cm} $\{ fv < v_0 \}$}
     }
     \end{minipage}
-\end{proof}
-\end{proof}
+\end{proof*}
+%\end{proof}
 \text{ $wp(S, fv < v_0) \equiv$ ${wp(S1, wp(S2, fv < v_0))}$} \\
     \vspace{0.2cm}
     \begin{minipage}[t]{18cm}
@@ -324,15 +344,13 @@ Luego, para probar 2., tenemos que ver que la tripla de Hoare $\{I \wedge B \} S
 \vspace{1cm}
 
 
-\end{proof}
-
 \\Luego, para probar 3., tenemos
 
-\begin{proof}
+\begin{proof*}
 	$ \{\neg B \wedge  I\} \implica i \leq |evs| \wedge 0 \geq i \leq |evs|	\implica i = |evs| \\$
 	Luego, $I \wedge i = |evs| \implica res = rec * (ap_c pa_c)^{\#(subseq(evs, 0, i), T)} * (ap_s pa_s)^{\#(subseq(evs, 0, i), F)} \\
 	\equiv rec * (ap_c pa_c)^{\#(subseq(evs, 0, |evs|), T)} * (ap_s pa_s)^{\#(subseq(evs, 0, |evs|), F)} = rec * (ap_c pa_c)^{\#(evs, T)} * (ap_s pa_s)^{\#(evs, F)} $ 
-\end{proof}
+\end{proof*}
 
 
 \vspace{1cm}
