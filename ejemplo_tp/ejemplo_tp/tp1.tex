@@ -369,18 +369,20 @@ Luego, para probar 2., tenemos que ver que la tripla de Hoare $\{I \wedge B \} S
 \end{minipage}
 \vspace{1cm}
 \begin{proc}{individuoDecideSiCooperarONo}{\In individuo: \nat, \In recursos: \TLista{\float}, \Inout cooperan: \TLista{\bool}, \In apuestas:
-\TLista{\TLista{\float}}, \In pagos: \TLista{\TLista{\float}}, \In eventos: \TLista{\TLista{\nat}}}{}
+\TLista{\TLista{\float}}, \In pagos: \TLista{\TLista{\float}}, \In eventos: \TLista{\TLista{\nat}}}{\{}
 	\requiere {
     		$0 \leq individuo < |cooperan|$ \newline
     		$\land \hspace{0.2cm} apuestasValidas(apuestas,eventos)$ \newline
     		$\land \hspace{0.2cm}mismoTamañoListas2(recursos,apuestas,pagos,eventos,cooperan)$ \newline
     		$\land \hspace{0.2cm} mismoTamañoSublistas(apuestas,pagos)$ \newline
-    		$\land \hspace{0.2cm} eventosValidos(eventos,apuestas)$}
+    		$\land \hspace{0.2cm} eventosValidos(eventos,apuestas)$
+        }\} \\
       		%puede faltar alguno
 	\asegura{%
 		cooperan[individuo] = convieneCooperar(individuo, recursos, old{(trayectorias)}, apuestas, pagos, eventos)
 	}
 \end{proc}
+\}
 
 %aqui va un espacio
 \vspace{1cm}
