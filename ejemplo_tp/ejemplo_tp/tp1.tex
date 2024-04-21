@@ -36,18 +36,19 @@
 
 \subsection{Ejercicio 1}
 
-\begin{proc}{redistribucionDeLosFrutos}{\In recursos : \TLista{\float}, \In cooperan : \TLista{\bool}}{\TLista{\float}}
+\begin{proc}{redistribucionDeLosFrutos}{\In recursos : \TLista{\float}, \In cooperan : \TLista{\bool}}{\TLista{\float} \hspace{0.1cm} \{}
 	\requiere{|recursos| = |cooperan|}
 	\asegura{res = fondoMonetario(recursos, cooperan) / |recursos|}
 	\aux{fondoMonetario}{\In recursos : \TLista{\float}, \In cooperan : \TLista{\bool}}{\float}{\sum_{i=0}^{n} {\IfThenElse{cooperan[i]}{recursos[i]}{0}}}
 \end{proc}
+\}
 
 \vspace{1cm}
 
 \subsection{Ejercicio 2}
 
 \begin{minipage}{19cm}
-\begin{proc}{trayectoriaDeLosFrutosIndividualesALargoPlazo}{\Inout trayectorias : \TLista{\TLista{\mathds{R}}}, \In cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\mathds{R}}}, \In pagos : \TLista{\TLista{\mathds{R}}}, \In eventos : \TLista{\TLista{\mathds{N}}}}{}
+\begin{proc}{trayectoriaDeLosFrutosIndividualesALargoPlazo}{\Inout trayectorias : \TLista{\TLista{\mathds{R}}}, \In cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\mathds{R}}}, \In pagos : \TLista{\TLista{\mathds{R}}}, \In eventos : \TLista{\TLista{\mathds{N}}}}{\{}
 	\requiere{%
 		{trayectoriaInicialValida(trayectorias)} \newline {\land apuestasValidas(apuestas,eventos)} \newline {\land 				\text{mismoTamañoLista(old{(trayectorias)}, apuestas, pagos, eventos, cooperan)}} \newline {\land \text{mismoTamañoSubListas(apuestas, pagos)}} \newline {\land 			\text{eventosValidos(eventos, apuestas)}}
 	}
@@ -69,6 +70,8 @@
 		| trayectorias |
 	}
 \end{proc}
+\}
+
 \end{minipage}
 
 \vspace{1cm}
@@ -102,6 +105,7 @@
 \pred{trayectoriasFinalesValidas}{s1: \TLista{\TLista{}}, s2: \TLista{\TLista{\nat}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |s1| \implicaLuego |s1[i]| = |s2[i]| + 1}}
 
 
+
 \begin{minipage}[t]{19cm}
 \aux{calcularFondoComun}{trayectorias : \TLista{\TLista{\mathds{R}}}, cooperan : \TLista{\bool}, apuestas : \TLista{\TLista{\mathds{R}}}, pagos : \TLista{\TLista{\mathds{R}}}, eventos : \TLista{\TLista{\mathds{N}}}}{\float}{%
 	%\begin{equation}
@@ -129,16 +133,16 @@
 
 \subsection{Ejercicio 3}
 
-\begin{proc}{trayectoriaExtrañaEscalera}{\In trayectorias : \TLista{\float}}{\bool}
+\begin{proc}{trayectoriaExtrañaEscalera}{\In trayectorias : \TLista{\float}}{\bool \hspace{0.1cm} \{}
 	\requiere{|trayectorias| > 0}
 	\asegura{%
 		res = \existe{i}{\nat}{0 \leq i < |trayectoria| \yLuego trayectoria[i] > trayectoria[i+1] \wedge trayectoria[i] > trayectoria[i-1]} \land (\not\exists{j}:{\nat})(i = j \land 0 \leq j < |trayectoria| \yLuego trayectoria[j] > trayectoria[j+1] \wedge trayectoria[j] > trayectoria[j-1])
-		}
+	}
 \end{proc}
-
+\}
 \subsection{Ejercicio 4}
 
-\begin{proc}{individuoDecideSiCooperarONo}{\In individuo: \nat, \In recursos : \TLista{\float}, \Inout cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\float}}, \In pagos : \TLista{\TLista{\float}}, \In eventos : \TLista{\TLista{\nat}}}
+\begin{proc}{individuoDecideSiCooperarONo}{\In individuo: \nat, \In recursos : \TLista{\float}, \Inout cooperan : \TLista{\bool}, \In apuestas : \TLista{\TLista{\float}}, \In pagos : \TLista{\TLista{\float}}, \In eventos : \TLista{\TLista{\nat}}}{\{}
     \newline
     \requiere {
     $0 \leq individuo < |cooperan|$ \newline
@@ -171,7 +175,7 @@
 \subsection{Ejercicio 5}
 
 
-\begin{proc}{individuoActualizaApuesta}{\In individuo: \nat, \In recursos : \TLista{\float}, \In cooperan : \TLista{\bool}, \Inout apuestas : \TLista{\TLista{\float}}, \In pagos : \TLista{\TLista{\float}}, \In eventos : \TLista{\TLista{\nat}}}
+\begin{proc}{individuoActualizaApuesta}{\In individuo: \nat, \In recursos : \TLista{\float}, \In cooperan : \TLista{\bool}, \Inout apuestas : \TLista{\TLista{\float}}, \In pagos : \TLista{\TLista{\float}}, \In eventos : \TLista{\TLista{\nat}}}{\{}
         \newline
         \requiere {
             ${0 \leq individuo < |apuestas|}$ \newline \land{apuestasValidas(apuestas,eventos)} \newline \land{mismoTamañoListas2(recursos,apuestas,pagos,eventos,cooperan)} \newline \land{mismoTamañoSublistas(apuestas,pagos)} \newline \land{eventosValidos(eventos,apuestas)}
@@ -184,6 +188,7 @@
             \hspace{0.3cm} \implicaLuego \hspace{0.2cm} {apuestas[i][j]=old(apuestas[i][j])}\\}}}
         }
 \end{proc}
+\}
 
 \vspace{0.6cm}
 
