@@ -219,7 +219,7 @@ Quiero probar que \newline P \implica $wp(res:=recursos;i:=0,Pc)$ \newline \equi
 
 Para probar la correctitud parcial del ciclo, se propone el invariante:
 \begin{equation*}
-	I \equiv 0 \leq i < |evs| \wedge res = rec (ap_c pa_c)^{\# apariciones(subseq(0, i, evs), T)}(ap_s pa_s)^{\#apariciones(subseq(0, i, evs), F)}
+	I \equiv 0 \leq i /leq |evs| \wedge res = rec (ap_c pa_c)^{\# apariciones(subseq(0, i, evs), T)}(ap_s pa_s)^{\#apariciones(subseq(0, i, evs), F)}
 \end{equation*}	
 
 Así, por el teorema del invariante, el ciclo $while(B) \, do \, S$ es parcialmente correcto respecto $(P_c, Q_c) $ sii:
