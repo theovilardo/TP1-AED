@@ -38,10 +38,21 @@
 
 \begin{proc}{redistribucionDeLosFrutos}{\In recursos : \TLista{\float}, \In cooperan : \TLista{\bool}}{\TLista{\float} \hspace{0.1cm} \{}
 	\requiere{|recursos| = |cooperan|}
-	\asegura{res = fondoMonetario(recursos, cooperan) / |recursos|}
-	\aux{fondoMonetario}{\In recursos : \TLista{\float}, \In cooperan : \TLista{\bool}}{\float}{\sum_{i=0}^{n} {\IfThenElse{cooperan[i]}{recursos[i]}{0}}}
+    	\requiere{todosPostivos(recursos)}
+    	\asegura{|res| = |recursos|}
+	\asegura{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |res| \yLuego (res[i] = fondoMonetario(recursos, cooperan) / |recursos|)}{}}
 \end{proc}
 \}
+
+\vspace{1cm}
+
+\aux{fondoMonetario}{\In recursos : \TLista{\float}, \In cooperan : \TLista{\bool}}{\float}{\sum_{i=0}^{n} {\IfThenElse{cooperan[i]}{recursos[i]}{0}}}
+
+\vspace{1cm}
+
+\pred{todosPositivos}{s : \TLista{\float}}{
+    \paraTodo[unalinea]{i}{\ent}{0 \leq i < |s| \implicaLuego s[i] > 0}{}
+}
 
 \vspace{1cm}
 
