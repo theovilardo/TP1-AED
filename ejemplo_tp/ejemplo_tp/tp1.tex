@@ -165,7 +165,7 @@
 
 \begin{minipage}[t]{20cm}
     \pred{trayectoriaCorrecta}{s: \TLista{\TLista{\float}}, ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{%
-	|s[ind]| = |es[ind]| \land \paraTodo{s[ind][j]}{\ent}{0 \leq j < |s[ind]-1| \implica s[ind][j] = calcularRecurso(s[ind][j-1], coop, as[ind][es[ind][j]], ps[ind][es[ind][j]], calcularFondoComun(s, coop, as, ps, es, j), |s|)}
+	|s[ind]| = |es[ind]| \land \paraTodo{s[ind][j]}{\ent}{0 \leq j < |s[ind]-1| \implica s[ind][j] = calcularRecurso(s[ind][j-1], coop, as[ind][es[ind][j]], ps[ind][es[ind][j]], calcularFondoComun(s, coop, as, ps, es, j), |s|)}Update tp1.tex
 }
 \end{minipage}
 \vspace{1cm}
@@ -219,7 +219,7 @@ Quiero probar que \newline P \implica $wp(res:=recursos;i:=0,Pc)$ \newline \equi
 
 Para probar la correctitud parcial del ciclo, se propone el invariante:
 \begin{equation*}
-	I \equiv 0 \leq i /leq |evs| \wedge res = rec (ap_c pa_c)^{\# apariciones(subseq(0, i, evs), T)}(ap_s pa_s)^{\#apariciones(subseq(0, i, evs), F)}
+	I \equiv 0 \leq i \leq |evs| \wedge res = rec (ap_c pa_c)^{\# apariciones(subseq(0, i, evs), T)}(ap_s pa_s)^{\#apariciones(subseq(0, i, evs), F)}
 \end{equation*}	
 
 Así, por el teorema del invariante, el ciclo $while(B) \, do \, S$ es parcialmente correcto respecto $(P_c, Q_c) $ sii:
