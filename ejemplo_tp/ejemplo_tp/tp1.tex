@@ -253,27 +253,33 @@ Para probar 1. tenemos $P_c = i=0 \wedge res=rec \wedge ap_c + ap_s = 1 \wedge p
     Además, $P_c$ \implica $res = rec$. Luego, $res = rec * (ap_c pa_c)^{\#(subseq(evs, 0, i), T)} * (ap_s pa_s)^{\#(subseq(evs, 0, i), F)} \wedge 0 \leq i \leq |evs|$, que es el invariante.
 \end{proof*}
 
-Luego, para probar 2., tenemos que ver que la tripla de Hoare $\{I \wedge B \} S \{I\}$ es válida, es decir, probar que $wp(S, I) \implica \{I \wedge B \}$.\\
+Luego, para probar 2., tenemos que ver que la tripla de Hoare $\{I \wedge B \} S \{I\}$ es válida, es decir, probar que $\{I \wedge B \} \implica wp(S, I) $.\\
 
 \begin{proof*}
-    Tenemos que $S \equiv S1; S2$, con $S1 \equiv \IfThenElse{eventos[i]}{res:=res * ap_c * p_c}{res:=res*ap_s*p_s}$ y $S2 \equiv i:= i+1$\\
+    Tenemos que $S \equiv S1; S2$, con \\
+    $S1 \equiv \IfThenElse{eventos[i]}{res:=res * ap_c * p_c}{res:=res*ap_s*p_s}$\\
+    $S2 \equiv i:= i+1$\\
+    Así, podemos usar el axioma de secuencia de programas para calcular $wp(S,I)$\\
 	$wp(S, I) \equiv wp(S1; S2, I) \equiv wp(S1, wp(S2, I))$.
 	Caclulemos primero $wp(S2, I)$. \\ 
-	$wp(S2, I) \equiv def(i+1) \yLuego I_{i+1}^i \equiv I_{i+1}^i \equiv\\
-	0 \leq i+1 \geq |evs| \wedge res = rec *  (ap_c * pa_c)^{\#(subseq(evs, 0, i+1), true)} * (ap_s * pa_s)^{\#(subseq(evs, 0, i+1), false)}$\\
+	$wp(S2, I) \equiv def(i+1) \yLuego I_{i+1}^i \\
+    \equiv I_{i+1}^i \\
+	\equiv 0 \leq i+1 \leq |evs| \wedge res = rec *  (ap_c * pa_c)^{\#(subseq(evs, 0, i+1), true)} * (ap_s * pa_s)^{\#(subseq(evs, 0, i+1), false)}$\\
 	$wp(S1, wp(S2, I)) \equiv wp(S1, I_{i+1}^i) \equiv def(evs[i]) \yLuego ((evs[i] \wedge wp(res:=res * ap_c * pa_c, I_{i+1}^i)) \vee (evs[i] = false \wedge wp(res:=res * ap_s * pa_s, I_{i+1}^i)) ) $\\
 	$\equiv 0 \leq i < |evs| \yLuego ((evs[i] = true \wedge wp_1) \vee (evs[i] = false \wedge wp_2))$, donde \\
 	$wp_1 \equiv wp(res:= res* ap_c * pa_c, I_{i+1}^i)$ y $wp_2 \equiv wp(res:= res*ap_s *pa_s, I_{i+1}^i)$. 
 	Procedemos a calcular $wp_1, wp_2$\\
-	$wp_1 \equiv def (res*ap_s*pa_s) \yLuego (I_{i+1}^i)_{res*ap_c*pa_c}^{res} \equiv (I_{i+1}^i)_{res*ap_c*pa_c}^{res} \equiv$
-	$\equiv 0\leq i+1 \leq |evs| \wedge res * ap_c * pa_c = rec *(ap_ * pa_c)^{\#(subseq(evs, 0, i+1), true)} * (ap_s * pa_s)^{\#(subseq(evs, 0, i+1), false)}$\\
+	$\equiv def (res*ap_s*pa_s) \yLuego (I_{i+1}^i)_{res*ap_c*pa_c}^{res} \\
+ \equiv (I_{i+1}^i)_{res*ap_c*pa_c}^{res} \\
+ \equiv 0\leq i+1 \leq |evs| \wedge res * ap_c * pa_c = rec *(ap_ * pa_c)^{\#(subseq(evs, 0, i+1), true)} * (ap_s * pa_s)^{\#(subseq(evs, 0, i+1), false)}$\\
 	$\equiv 0\leq i+1 \leq |evs| \wedge res = rec *(ap_c * pa_c)^{\#(subseq(evs, 0, i+1), true) - 1} * (ap_s * pa_s)^{\#(subseq(evs, 0, i+1), false)}$\\
 	Véase que se pudo pasar dividiendo $ap_c * pa_c$ porque $ap_c * pa_c > 0 \implica ap_c * pa_c \not= 0$ \\
-	Similarmente,
-	$wp_2 \equiv def (res*ap_s*pa_s) \yLuego (I_{i+1}^i)_{res*ap_s*pa_s}^{res} \equiv (I_{i+1}^i)_{res*ap_s*pa_s}^{res} \equiv$
-	$\equiv 0\leq i+1 \leq |evs| \wedge res * ap_s * pa_s = rec *(ap_c * pa_c)^{\#(subseq(evs, 0, i+1), true)} * (ap_s * pa_s)^{\#(subseq(evs, 0, i+1), false)}$\\
+	Similarmente, para $wp_2$, calculamos:
+	$wp_2 \equiv def (res*ap_s*pa_s) \yLuego (I_{i+1}^i)_{res*ap_s*pa_s}^{res} \\
+ \equiv (I_{i+1}^i)_{res*ap_s*pa_s}^{res} \\
+ \equiv 0\leq i+1 \leq |evs| \wedge res * ap_s * pa_s = rec *(ap_c * pa_c)^{\#(subseq(evs, 0, i+1), true)} * (ap_s * pa_s)^{\#(subseq(evs, 0, i+1), false)}$\\
 	$\equiv 0\leq i+1 \leq |evs| \wedge res = rec *(ap_c * pa_c)^{\#(subseq(evs, 0, i+1), true)} * (ap_s * pa_s)^{\#(subseq(evs, 0, i+1), false) - 1}$\\
-	Reemplazando $wp_1, wp_2$ respectivamente, llegamos a \\
+	Ya calculamos $wp_1, wp_2$. Reemplazando $wp_1, wp_2$ respectivamente, llegamos a \\
 	$wp(S, I) \equiv 0 \leq i < |evs| \yLuego ((evs[i] = true \wedge 0\leq i+1 \leq |evs| \wedge res = rec *(ap_c * pa_c)^{n - 1} * (ap_s * pa_s)^m) \vee $\\
 	$(evs[i] = false) \wedge 0\leq i+1 \leq |evs| \wedge res = rec *(ap_c * pa_c)^{n} * (ap_s * pa_s)^{m - 1})$\\
 	con $n = \#apariciones(subseq(evs, 0, i+1), true) \wedge m = \#apariciones(subseq(evs, 0, i+1), false)$\\
