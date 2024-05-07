@@ -63,20 +63,23 @@
 	\requiere{%
 		{trayectoriaInicialValida(trayectorias)} \newline {\land apuestasValidas(apuestas,eventos)} \newline {\land 				\text{mismoTamañoLista(old{(trayectorias)}, apuestas, pagos, eventos, cooperan)}} \newline {\land \text{mismoTamañoSubListas(apuestas, pagos)}} \newline {\land 			\text{eventosValidos(eventos, apuestas)}}
 	}
+    \requiere{
+        \paraTodo[unalinea]{i}{\ent}{0 \leq i < |pagos| \implicaLuego todosPositivos(pagos[i])}{}
+    }
 	\asegura{%
-		|trayectorias| = old{(trayectorias)} \land trayectoriasFinalesValidas(trayectorias, eventos)
+		|trayectorias| = old{(trayectorias)} \yLuego trayectoriasFinalesValidas(trayectorias, eventos)
 	}
 	\asegura{%
 	\paraTodo[unalinea]{j}{\ent}{0 \leq j < |trayectorias|} \implica {trayectorias[j][0] = old{(trayectorias[j][0])}}
 	} 
 	\asegura{%
-	\paraTodo[unalinea]{j, r}{\ent}{0 \leq j < |trayectorias|}{\implicaLuego
-	(0 < r < |eventos[j]|)} \implica trayectorias[j][r] = 
+	\paraTodo[unalinea]{j, r}{\ent}{(0 \leq j < |trayectorias|}{\yLuego
+	(0 < r < |eventos[j]|))} \implicaLuego trayectorias[j][r] = 
 	calcularRecurso(
 		trayectorias[j][r - 1],
 		cooperan[j],
 		pagos[j][eventos[j][r - 1]],
-		apuestas[j][r - 1],
+		apuestas[j][eventos[j][r - 1]],
 		calcularFondoComun(trayectoria, cooperan, apuestas, pagos, eventos, r)),
 		| trayectorias |
 	}
@@ -87,7 +90,11 @@
 
 \vspace{1cm}
 
-\pred{apuestasValidas}{aps,evs: \TLista{\TLista{\float}}} {\paraTodo[unalinea]{i}{\ent}{0 \leq i < |aps|} \implicaLuego {aps[i] \geq max(evs[i])}\yLuego{(sumaElementos(aps[i]) = 1)}}
+\pred{esMaximo}{s: \TLista{\ent}, m: \ent}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |s| \implicaLuego }{}}
+
+\vspace{1cm}
+
+\pred{apuestasValidas}{aps,evs: \TLista{\TLista{\ent}}} {\paraTodo[unalinea]{i}{\ent}{0 \leq i < |aps|} \existe[unalinea]{m}{\ent}{esMaximo(evs[i], m)} \implicaLuego {|aps[i]| \geq m}\land{(sumaElementos(aps[i]) = 1)}}
 
 \vspace{1cm}
 
@@ -101,24 +108,27 @@
 
 \vspace{1cm}
 
-\pred{mismoTamañoSublistas}{s1, s2: \TLista{\TLista{\float}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |s1| \implicaLuego |s1[i]| = |s2[i]|}}
+\pred{mismoTamañoSublistas}{s1, s2: \TLista{\TLista{\float}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |s1| \land |s1| = |s2| \implicaLuego |s1[i]| = |s2[i]|}}
 
 \vspace{1cm}
 
-\pred{eventosValidos}{s: \TLista{\TLista{\nat}}, l: \TLista{\TLista{\float}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |s| -1 \implicaLuego |s[i]| = |s[i]| + 1} \land {\paraTodo[unalinea]{m}{\ent}{0 \leq m < |s| \implicaLuego {\paraTodo[unalinea]{n}{\ent}{0 \leq n < |s[m]| \implicaLuego 0 \leq s[m][n] < |[m]|}}}}}
+\begin{minipage}[t]{20cm}
+    \pred{eventosValidos}{s: \TLista{\TLista{\nat}}, l: \TLista{\TLista{\ent}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |s| -1 \implicaLuego |s[i]| = |s[i+1]|} \land {\paraTodo[unalinea]{m}{\ent}{0 \leq m < |s| \land |s| = |l| \implicaLuego {\paraTodo[unalinea]{n}{\ent}{0 \leq n < |s[m]| \implicaLuego 0 \leq s[m][n] < l[m]}}}}}
+\end{minipage}
+
 
 \vspace{1cm}
 
-\pred{trayectoriaInicialValida}{s: \TLista{\TLista{\float}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |s| \implicaLuego |s[i]| = 1}}
+\pred{trayectoriaInicialValida}{s: \TLista{\TLista{\float}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |s| \implicaLuego |s[i]| = 1 \land s[i][0] > 0}}
 
 \vspace{1cm}
 
-\pred{trayectoriasFinalesValidas}{s1: \TLista{\TLista{}}, s2: \TLista{\TLista{\nat}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |s1| \implicaLuego |s1[i]| = |s2[i]| + 1}}
+\pred{trayectoriasFinalesValidas}{s1: \TLista{\TLista{\ent}}, s2: \TLista{\TLista{\nat}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |s1| \implicaLuego |s1[i]| = |s2[i]| + 1}}
 
 
 
 \begin{minipage}[t]{19cm}
-\aux{calcularFondoComun}{trayectorias : \TLista{\TLista{\mathds{R}}}, cooperan : \TLista{\bool}, apuestas : \TLista{\TLista{\mathds{R}}}, pagos : \TLista{\TLista{\mathds{R}}}, eventos : \TLista{\TLista{\mathds{N}}}}{\float}{%
+\aux{calcularFondoComun}{trayectorias : \TLista{\TLista{\mathds{R}}}, cooperan : \TLista{\bool}, apuestas : \TLista{\TLista{\mathds{R}}}, pagos : \TLista{\TLista{\mathds{R}}}, eventos : \TLista{\TLista{\mathds{N}}}, r : \nat}{\float}{%
 	%\begin{equation}
 	\sum\limits_{i=0}^{| trayectorias | - 1} \IfThenElse{cooperan[i] = true}{trayectorias[i][r - 1] * apuestas[i][eventos[i][r - 1]] * pagos[i][eventos[i][r - 1]]}{\text{0}}
 	\label{eq:1} 
