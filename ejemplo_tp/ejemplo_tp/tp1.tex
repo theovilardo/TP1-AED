@@ -150,7 +150,7 @@
     $\land \hspace{0.2cm}mismoTamañoListas2(recursos,apuestas,pagos,eventos,cooperan)$ \newline
     $\land \hspace{0.2cm} mismoTamañoSublistas(apuestas,pagos)$ \newline
     $\land \hspace{0.2cm} eventosValidos(eventos,apuestas)$}
-    \asegura{cooperan[individuo] = convieneCooperar(individuo, recursos, old{(trayectorias)}, apuestas, pagos, eventos)}
+    \asegura{cooperan[individuo] = convieneCooperar(individuo, recursos, old{(cooperan)}, apuestas, pagos, eventos)}
     \asegura{{|old(cooperan)|=|cooperan|} \newline \land{\paraTodo[unalinea]{i}{\ent}{0\leq i < |cooperan| \land i \neq individuo \implicaLuego old(cooperan[i]) = cooperan[i]}} }
 \end{proc}
 
@@ -165,7 +165,7 @@
 
 \begin{minipage}[t]{20cm}
     \pred{trayectoriaCorrecta}{s: \TLista{\TLista{\float}}, ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{%
-	|s[ind]| = |es[ind]| \land s[ind][0]  =  rs[ind] \land \paraTodo{j}{\ent}{0 < j \leq |s[ind]-1| \implica s[ind][j] = calcularRecurso(s[ind][j-1], coop, as[ind][es[ind][j-1]], ps[ind][es[ind][j-1]], calcularFondoComun(s, coop, as, ps, es, j-1), |s|) }
+	|s[ind]| = |es[ind]| \yLuego s[ind][0]  =  rs[ind] \land \paraTodo{j}{\ent}{0 < j \leq |s[ind]-1| \implica s[ind][j] = calcularRecurso(s[ind][j-1], coop, as[ind][es[ind][j-1]], ps[ind][es[ind][j-1]], calcularFondoComun(s, coop, as, ps, es, j-1), |s|) }
 }
 \end{minipage}
 \vspace{1cm}
