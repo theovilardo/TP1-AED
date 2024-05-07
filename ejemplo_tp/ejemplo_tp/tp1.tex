@@ -165,7 +165,7 @@
 
 \begin{minipage}[t]{20cm}
     \pred{trayectoriaCorrecta}{s: \TLista{\TLista{\float}}, ind: \nat, rs: \TLista{\float}, coop: \TLista{\bool}, as: \TLista{\TLista{\float}}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{%
-	|s[ind]| = |es[ind]| \land \paraTodo{s[ind][j]}{\ent}{0 \leq j < |s[ind]-1| \implica s[ind][j] = calcularRecurso(s[ind][j-1], coop, as[ind][es[ind][j]], ps[ind][es[ind][j]], calcularFondoComun(s, coop, as, ps, es, j), |s|)}Update tp1.tex
+	|s[ind]| = |es[ind]| \land s[ind][0]  =  rs[ind] \land \paraTodo{j}{\ent}{0 < j \leq |s[ind]-1| \implica s[ind][j] = calcularRecurso(s[ind][j-1], coop, as[ind][es[ind][j-1]], ps[ind][es[ind][j-1]], calcularFondoComun(s, coop, as, ps, es, j-1), |s|) }
 }
 \end{minipage}
 \vspace{1cm}
