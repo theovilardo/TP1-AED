@@ -157,7 +157,7 @@
 \begin{proc}{trayectoriaExtrañaEscalera}{\In trayectorias : \TLista{\float}}{\bool \hspace{0.1cm} \{}
 	\requiere{|trayectorias| > 0}
 	\asegura{%
-		res = \existe{i}{\nat}{0 \leq i < |trayectoria| \yLuego trayectoria[i] > trayectoria[i+1] \wedge trayectoria[i] > trayectoria[i-1]} \land (\not\exists{j}:{\nat})(i = j \land 0 \leq j < |trayectoria| \yLuego trayectoria[j] > trayectoria[j+1] \wedge trayectoria[j] > trayectoria[j-1])
+		res = \existe{i}{\nat}{\hspace{0.4cm} 0 < i < |trayectoria| -1 \hspace{0.2cm} \yLuego \hspace{0.2cm} trayectoria[i] > trayectoria[i+1] \hspace{0.2cm} \wedge \hspace{0.2cm} trayectoria[i] > trayectoria[i-1]} \land (\not\exists{j}:{\nat})(i \not = j \hspace{0.2cm} \land \hspace{0.2cm} 0 < j < |trayectoria|-1 \hspace{0.2cm} \yLuego \hspace{0.2cm} trayectoria[j] > trayectoria[j+1] \hspace{0.2cm} \wedge \hspace{0.2cm} trayectoria[j] > trayectoria[j-1])
 	}
 \end{proc}
 \}
