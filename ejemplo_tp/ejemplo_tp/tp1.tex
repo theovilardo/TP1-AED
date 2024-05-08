@@ -157,7 +157,7 @@
 \begin{proc}{trayectoriaExtrañaEscalera}{\In trayectorias : \TLista{\float}}{\bool \hspace{0.1cm} \{}
 	\requiere{|trayectorias| > 0}
 	\asegura{%
-		res = \existe{i}{\nat}{\hspace{0.4cm} 0 < i < |trayectoria| -1 \hspace{0.2cm} \yLuego \hspace{0.2cm} trayectoria[i] > trayectoria[i+1] \hspace{0.2cm} \wedge \hspace{0.2cm} 		trayectoria[i] > trayectoria[i-1]} \land (\not\exists{j}:{\nat})(i \not = j \hspace{0.2cm} \land \hspace{0.2cm} 0 < j < |trayectoria|-1 \hspace{0.2cm} \yLuego 				\hspace{0.2cm} trayectoria[j] > trayectoria[j+1] \hspace{0.2cm} \wedge \hspace{0.2cm} trayectoria[j] > trayectoria[j-1])
+		res = \existe{i}{\nat}{0 \leq i < |trayectoria| \yLuego trayectoria[i] > trayectoria[i+1] \wedge trayectoria[i] > trayectoria[i-1]} \land (\not\exists{j}:{\nat})(i = j \land 0 \leq j < |trayectoria| \yLuego trayectoria[j] > trayectoria[j+1] \wedge trayectoria[j] > trayectoria[j-1])
 	}
 \end{proc}
 \}
@@ -199,13 +199,17 @@
 \begin{proc}{individuoActualizaApuesta}{\In individuo: \nat, \In recursos : \TLista{\float}, \In cooperan : \TLista{\bool}, \Inout apuestas : \TLista{\TLista{\float}}, \In pagos : \TLista{\TLista{\float}}, \In eventos : \TLista{\TLista{\nat}}}{\{}
         \newline
         \requiere {
-            ${0 \leq individuo < |apuestas|}$ \newline \land{apuestasValidas(apuestas,eventos)} \newline \land{mismoTamañoListas2(recursos,apuestas,pagos,eventos,cooperan)} \newline \land{mismoTamañoSublistas(apuestas,pagos)} \newline \land{eventosValidos(eventos,apuestas)}
+            ${0 \leq individuo < |apuestas|}$ \newline \land{apuestasValidas(apuestas,eventos)} \newline \land{mismoTamañoListas2(recursos,apuestas,pagos,eventos,cooperan)} \newline \land{mismoTamañoSublistas(apuestas,pagos)} \newline \land{eventosValidos(eventos,apuestas)}  \newline \land{todosPositivos(recursos) \newline \land
+        \paraTodo[unalinea]{i}{\ent}{0 \leq i < |pagos| \implicaLuego todosPositivos(pagos[i])}{}
+    }}
+    \begin{minipage}{18cm}
+    \asegura{
+            \paraTodo{s}{\TLista{\float}}{\hspace{0.35cm} apuestasValidas(setAt(apuestas, individuo, s), eventos) \implicaLuego esMejorApuesta(apuestas, setAt(apuestas, individuo, s), individuo, recursos, cooperan, pagos, eventos)}
         }
-	\asegura{
-            \paraTodo{s}{\TLista{\float}}{\hspace{0.35cm} apuestaValida(s) \implica esMejorApuesta(apuestas[individuo], s, individuo, recursos, cooperan, pagos, eventos)}
-        }
-        \asegura{ \hspace{0.2cm}
-            |old{(apuestas)}|=|apuestas| \hspace{0.2cm} \land \\ \vspace{0.1cm} \hspace{0.2cm} {\paraTodo[unalinea]{i}{\ent}{$0\leq i < |apuestas|$ \implicaLuego {\paraTodo[unalinea]{j}{\ent}{0\leq j < |apuestas[i]| \land apuestas[i] \neq apuestas[individuo]} \\
+        
+    \end{minipage}    
+	    \asegura{ \hspace{0.2cm}
+            |old{(apuestas)}|=|apuestas| \hspace{0.2cm} \yLuego \\ \vspace{0.1cm} \hspace{0.2cm} {\paraTodo[unalinea]{i}{\ent}{$0\leq i < |apuestas|$ \implicaLuego {\paraTodo[unalinea]{j}{\ent}{0\leq j < |apuestas[i]| \land i \neq individuo} \\
             \hspace{0.3cm} \implicaLuego \hspace{0.2cm} {apuestas[i][j]=old(apuestas[i][j])}\\}}}
         }
 \end{proc}
@@ -214,9 +218,9 @@
 \vspace{0.6cm}
 
 %\begin{minipage}[t]{19cm}
-    \pred{esMejorApuesta}{a_1,a_2: \TLista{\TLista{\float}},ind: \ent, rs \TLista{\float}, coop : \TLista{\bool}, ps : \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{%
-    \existe[unalinea]{ts_1,ts_2:}{\TLista{\TLista{\float}}} {\yLuego \hspace{0.2cm} trayectoriaCorrecta(ts_1, ind, rs, coop, a_1, ps, es) \\ \hspace{0.2cm} \hspace{0.4cm} \land \hspace{0.2cm} trayectoriaCorrecta(ts_2, ind, rs, coop, a_2, ps, es)
-    \implica ts_1[ind][|ts_1[ind]|-1] \geq ts_2[ind][|ts_2[ind]|-1]}}
+    \pred{esMejorApuesta}{as_1: \TLista{\TLista{\float}}, as_2: \TLista{\TLista{\float}},ind: \ent, rs : \TLista{\float}, coop: \TLista{\bool}, ps: \TLista{\TLista{\float}}, es: \TLista{\TLista{\nat}}}{%
+    \existe[unalinea]{ts_1,ts_2}{\TLista{\TLista{\float}}} {trayectoriaCorrecta(ts_1, ind, rs, coop, as_1, ps, es) \\ \hspace{0.2cm} \hspace{0.4cm} \land \hspace{0.2cm} trayectoriaCorrecta(ts_2, ind, rs, coop, as_2, ps, es)
+    \yLuego ts_1[ind][|ts_1[ind]|-1] \geq ts_2[ind][|ts_2[ind]|-1]}}
 %\end{minipage}
  
 \section{Demostración de correctitud}
