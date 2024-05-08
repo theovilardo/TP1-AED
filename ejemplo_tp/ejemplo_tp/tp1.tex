@@ -327,49 +327,21 @@ Luego, para probar 2., tenemos que ver que la tripla de Hoare $\{I \wedge B \} S
     
     \begin{itemize}
     \item{%
-     Luego, de $I \land B: 0 \leq i < |eventos|$ \hspace{0.2cm} \text{quiero ver que vale} \hspace{0.2cm} $0 \leq i < |eventos|$ \hspace{0.2cm} \text{de wp(S, I)} \\
-     $0 \leq i < |eventos| \implica 0 \leq i < |eventos| \equiv true$, \hspace{0.2cm} \text{por lo que vale el cuerpo fuera de la disyunción}. \\
-     \vspace{0.5cm}
-    \hspace{4.2cm} Vale $I \land B \implica wp(S, I)$ \hspace{0.2cm} entonces \hspace{0.2cm} $\{ I \land B \}$ \hspace{0.1cm}S\hspace{0.1cm} \{ I \}
-    }
-    \end{itemize}
-    \vspace{0.8cm}
-    \begin{minipage}{3cm}
-    \fbox{%
-    \parbox{\textwidth}{
-        $I \land fv \leq 0 \implica \neg B$
-    }}
-    \end{minipage}
-    \begin{itemize}
-    \vspace{0.2cm}
-    \item fv = ${|eventos|}$ - i: ${|eventos|}$ es fijo e ``i'' va aumentando de a 1 en la implementacion, por lo que fv decrece y termina.
-    \item $\neg  B \equiv$ \hspace{0.2cm} i \hspace{0.2cm} $\geq$
-    \hspace{0.2cm}
-    ${|eventos|}$
-    \item {$fv \leq 0 \equiv$ \hspace{0.1cm} ${|eventos|} - i$ $\leq 0 \equiv$ \hspace{0.1cm} ${|eventos|} \leq i$}, \hspace{0.2cm} entonces,
-    \vspace{0.2cm} $fv \leq 0 \implica \neg B \equiv$ \vspace{0.2cm} ${|eventos|} \leq i \implica i \geq {|eventos|} \equiv true$
-    \begin{itemize}
-              \item En este caso no fue necesario mirar la informacion del invariante
-        \end{itemize}
-    \end{itemize}
-    \vspace{0.5cm}
-    \hspace{7.2cm} Vale $I \land fv \leq 0 \implica \neg B$ \\
-    \vspace{0.5cm}
-    \begin{minipage}{5cm}
-    \fbox{%
-    \parbox{\textwidth}{%
-        $\{ I \land B \land fv = v_0\}$ \hspace{0.1cm} S \hspace{0.1cm} $\{ fv < v_0 \}$}
-    }
-    \end{minipage}
-\end{proof*}
-%\end{proof}
-\text{ $wp(S, fv < v_0) \equiv$ ${wp(S1, wp(S2, fv < v_0))}$} \\
+     Luego, de $I \land B: 0 \leq i < |eventos|$ \hspace{0.2cm} \text{quiero ver que vale} \hspace{0.2cm} $0 \leq i < |eventos|$ \hspace{0.2cm} \text{ $wp(S, fv < v_0) \equiv$ ${wp(S1, wp(S2, fv < v_0))}$} \\
     \vspace{0.2cm}
     \begin{minipage}[t]{18cm}
         \begin{itemize}
         \item {$wp(S2, fv < v_0) \equiv def(i + 1) \yLuego |eventos| -i-1 < v_0$}
-        \item {$wp(S1, wp(S2, fv < v_0)) \equiv wp(S1, |eventos|-i-1 < v_0) \equiv
-        def(eventos[i]) \yLuego (eventos[i] = true \land wp(res \coloneq res * apuesta[c] * pagos[c], |eventos| -i-1 < v_0)) \lor (eventos[i] = false \land wp(res \coloneq res * apuestas[s] * pagos[s], |eventos|-i-1 < v_0)) \equiv 0 \leq i \hspace{0.1cm} |eventos| \land |eventos| -i-1 < v_0 \hspace{0.1cm} \yLuego \hspace{0.1cm} (eventos[i] = true \lor eventos[i] = false) \equiv 0 \leq i < |eventos| \lor |eventos| \land |eventos| -i-1 < v_0 \equiv wp(S, fv < v_0)$}
+        \item {$wp(S1, wp(S2, fv < v_0)) 
+        \equiv wp(S1, |eventos|-i-1 < v_0) \\
+        \equiv def(eventos[i]) \yLuego (eventos[i] = true \land wp(res \coloneq res * apuesta[c] * pagos[c], |eventos| -i-1 < v_0)) \lor (eventos[i] = false \land wp(res \coloneq res * apuestas[s] * pagos[s], |eventos|-i-1 < v_0)) \\$
+        Luego, \\
+        $def(eventos[i]) \equiv 0 \leq i < |eventos|$ \\ 
+        $wp(res \coloneq res * apuesta[c] * pagos[c], |eventos| -i-1 < v_0)) \equiv def(res * apuesta[c] * pagos[c]) \yLuego {(|eventos|-i-1 < v_0)}^{res}_{res * apuesta[c] * pagos[c]}\equiv |eventos|-i-1 < v_0$ \\
+        CALCULAR WP RAMA FALSE Y CORREGIR ABAJO
+        $
+        \equiv 0 \leq i < |eventos| \land |eventos| -i-1 < v_0 \hspace{0.1cm} \yLuego \hspace{0.1cm} (eventos[i] = true \lor eventos[i] = false) \\
+        \equiv 0 \leq i < |eventos| \lor |eventos| \land |eventos| -i-1 < v_0 \equiv wp(S, fv < v_0)$}
         \item {$I \land B \land fv = v_0 \equiv 0 \leq i < |eventos| \land res = recurso * (apuesta[c]*pagos[c])^{n} * (apuestas[s]* pagos[s])^{m} \land |eventos| - i = v_0$}
         \begin{itemize}
               \item {$0 \leq i < |eventos| \implica 0 \leq i < |eventos| \equiv true$}
@@ -380,6 +352,7 @@ Luego, para probar 2., tenemos que ver que la tripla de Hoare $\{I \wedge B \} S
         \end{itemize}
     \end{minipage}
 \vspace{1cm}
+
 
 
 \\Luego, para probar 3., tenemos
