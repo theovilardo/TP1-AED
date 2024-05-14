@@ -244,7 +244,7 @@ Quiero probar que \newline P \implica $wp(res:=recursos;i:=0,Pc)$ \newline \equi
 
 Para probar la correctitud parcial del ciclo, se propone el invariante:
 \begin{equation*}
-	I \equiv 0 \leq i \leq |evs| \wedge res = rec (ap_c pa_c)^{\# apariciones(subseq(0, i, evs), T)}(ap_s pa_s)^{\#apariciones(subseq(0, i, evs), F)}
+	I \equiv 0 \leq i \leq |evs| \wedge res = rec (ap_c pa_c)^{\# apariciones(subseq(evs, 0, i), T)}(ap_s pa_s)^{\#apariciones(subseq(evs, 0, i), F)}
 \end{equation*}	
 
 Así, por el teorema del invariante, el ciclo $while(B) \, do \, S$ es parcialmente correcto respecto $(P_c, Q_c) $ sii:
@@ -305,11 +305,17 @@ Luego, para probar 2., tenemos que ver que la tripla de Hoare $\{I \wedge B \} S
     \begin{minipage}[t]{19cm}
         \begin{itemize}
             \item{Caso eventos[i + 1] = true: \\
-            El caso en la rama del true: Reemplazamos el res de $I \land B$
+            \implica $n = \#(subseq(evs, 0, i+1), true) = \#(subseq(evs, 0 ,i), true) + 1 $\\
+            Y, además, \\
+            $m = \#(subseq(evs, 0, i+1), false) = \#(subseq(evs, 0, i), false)$ \\
+            \implica $rec *(ap_c * pa_c)^{n - 1} * (ap_s * pa_s)^m) = rec *(ap_c * pa_c)^{\#(subseq(evs, 0 ,i), true)} * (ap_s * pa_s)^{\#(subseq(evs, 0, i), false))} $ \\
             \hspace{0.1cm}
-            \text{en el res de la rama true de wp(S, I). Además {n + 1 = $n'$,}}\\ \text{porque hay una aparicion mas de true en eventos para la subseq(evs, 0, i+1) y m = $m'$ ya que no hay una aparicion} \\ \text{mas de false en la subseq(evs, 0, i+1).} \newline
-            \hspace{0.8cm}
-            $eventos[i] = true \yLuego recurso*(apuesta[c]*pago[c]) ^{n} * (apuesta[s]*pago[s]) ^{m} = recurso * (apuesta[c]*pago[c])^{n + 1 - 1} * (apuesta[s]*pago[s])^{m}$ $\equiv true \yLuego$ $(apuesta[c]*pago[c])^{n} = (apuesta[c]*pago[c])^{n}$ $\equiv 1 = 1 \equiv true \yLuego$ \text{vale la rama true.}}
+            \text{Reemplazando en $wp(S,I)$, tenemos}\\
+            $wp(S,I) \equiv 0 \leq i < |evs| \yLuego ((evs[i] \land res = rec *(ap_c * pa_c)^{\#(subseq(evs, 0 ,i), true)} * (ap_s * pa_s)^{\#(subseq(evs, 0, i), false))} \lor (\neg evs[i] \land res = rec * (ap_c * pa_c)^{\#(subseq(evs, 0 ,i), true) + 1} * (ap_s * pa_s)^{\#(subseq(evs, 0, i), false) - 1}$
+            \\
+            Concentrémonos en la primera parte de la disyunción, es decir: \\
+            $(evs[i] \land res = rec *(ap_c * pa_c)^{\#(subseq(evs, 0 ,i), true)} * (ap_s * pa_s)^{\#(subseq(evs, 0, i), false))}$
+            Tenemos que $B \implica evs[i] \land I \implica res = rec *(ap_c * pa_c)^{\#(subseq(evs, 0 ,i), true)} * (ap_s * pa_s)^{\#(subseq(evs, 0, i), false))}$, ya que son los mismo. Entonces, como tenemos una disyunción, la misma es True. \\ Además, $I \land B \implica  0 \leq i < |evs|  $ Luego, resulta $I\land B \implica wp(S,I)$. 
         \end{itemize}
     \end{minipage}
     
