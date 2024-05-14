@@ -331,17 +331,28 @@ Luego, para probar 2., tenemos que ver que la tripla de Hoare $\{I \wedge B \} S
     \end{itemize}
     \end{minipage}
 
+\vspace{1cm}
     \\Luego, para probar 3., tenemos
 
 \begin{proof*}
-	$ \{\neg B \wedge  I\} \implica i \leq |evs| \wedge 0 \geq i \leq |evs|	\implica i = |evs| \\$
+	$ \{\neg B \wedge  I\} \implica i \geq |evs| \wedge 0 \leq i \leq |evs|	\implica i = |evs| \\$
 	Luego, $I \wedge i = |evs| \implica res = rec * (ap_c pa_c)^{\#(subseq(evs, 0, i), T)} * (ap_s pa_s)^{\#(subseq(evs, 0, i), F)} \\
-	\equiv rec * (ap_c pa_c)^{\#(subseq(evs, 0, |evs|), T)} * (ap_s pa_s)^{\#(subseq(evs, 0, |evs|), F)} = rec * (ap_c pa_c)^{\#(evs, T)} * (ap_s pa_s)^{\#(evs, F)} $ 
+	\equiv res = rec * (ap_c pa_c)^{\#(subseq(evs, 0, |evs|), T)} * (ap_s pa_s)^{\#(subseq(evs, 0, |evs|), F)} \\ \equiv res = rec * (ap_c pa_c)^{\#(evs, T)} * (ap_s pa_s)^{\#(evs, F)} \\ \equiv Q_c$ 
 \end{proof*}
+
+\vspace{1cm}
+
+
     
-    \begin{itemize}
-    \item{%
-     Luego, de $I \land B: 0 \leq i < |eventos|$ \hspace{0.2cm} \text{quiero ver que vale} \hspace{0.2cm} $0 \leq i < |eventos|$ \hspace{0.2cm} \text{ $wp(S, fv < v_0) \equiv$ ${wp(S1, wp(S2, fv < v_0))}$} \\
+
+    \vspace{1cm}
+    Vemos que se cumple 4: 
+    $ \{I \land B \land fv = v_0\} \hspace{0.1cm} S \hspace{0.1cm} \{fv < v_0\}$
+\vspace{0.5}
+
+Que es pedir que: $I \land B \land fv = v_0 \implica wp(S, fv < v_0)$
+     
+Luego,\hspace{0.2cm} \text{quiero ver que vale:} \text{ $wp(S, fv < v_0) \equiv$ ${wp(S1, wp(S2, fv < v_0))}$} \\
     \vspace{0.2cm}
     \begin{minipage}[t]{18cm}
         \begin{itemize}
@@ -352,7 +363,7 @@ Luego, para probar 2., tenemos que ver que la tripla de Hoare $\{I \wedge B \} S
         Luego, \\
         $def(eventos[i]) \equiv 0 \leq i < |eventos|$ \\ 
         $wp(res \coloneq res * apuesta[c] * pagos[c], |eventos| -i-1 < v_0)) \equiv def(res * apuesta[c] * pagos[c]) \yLuego {(|eventos|-i-1 < v_0)}^{res}_{res * apuesta[c] * pagos[c]}\equiv |eventos|-i-1 < v_0$ \\
-        CALCULAR WP RAMA FALSE Y CORREGIR ABAJO
+        
         $
         \equiv 0 \leq i < |eventos| \land |eventos| -i-1 < v_0 \hspace{0.1cm} \yLuego \hspace{0.1cm} (eventos[i] = true \lor eventos[i] = false) \\
         \equiv 0 \leq i < |eventos| \lor |eventos| \land |eventos| -i-1 < v_0 \equiv wp(S, fv < v_0)$}
@@ -362,10 +373,32 @@ Luego, para probar 2., tenemos que ver que la tripla de Hoare $\{I \wedge B \} S
               \item {$|eventos| - i = v_0 \implica |eventos| -i-1 < v_0 \equiv v_0 - 1 < v_0 \equiv -1 < 0 \equiv true$}
         \end{itemize}
         \vspace{0.5cm}
-        \hspace{2.1cm} Vale $I \land B \land fv = v_0 \implica wp(S, fv < v_0), entonces vale \{I \land B \land fv = v_0\} \hspace{0.1cm} S \hspace{0.1cm} \{fv < v_0\}$
-        \end{itemize}
+        Entonces vale$ \{I \land B \land fv = v_0\} \hspace{0.1cm} S \hspace{0.1cm} \{fv < v_0\}$
+    \end{itemize}
     \end{minipage}
+    
 \vspace{1cm}
+
+Por ultimo, queremos ver que el ciclo termina. Para esto, queremos probar 5:
+    \begin{itemize}
+        \item $I \land fv \leq 0 \implica \neg B$
+    \end{itemize}
+
+\begin{itemize}
+    \vspace{0.2cm}
+    \item fv = ${|eventos|}$ - i: ${|eventos|}$ es fijo e ``i'' va aumentando de a 1 en la implementacion, por lo que fv decrece y termina.
+    \item $\neg  B \equiv$ \hspace{0.2cm} i \hspace{0.2cm} $\geq$
+    \hspace{0.2cm}
+    ${|eventos|}$
+    \item {$fv \leq 0 \equiv$ \hspace{0.1cm} ${|eventos|} - i$ $\leq 0 \equiv$ \hspace{0.1cm} ${|eventos|} \leq i$}, \hspace{0.2cm} entonces,
+    \vspace{0.2cm} $fv \leq 0 \implica \neg B \equiv$ \vspace{0.2cm} ${|eventos|} \leq i \implica i \geq {|eventos|} \equiv true$
+    \begin{itemize}
+              \item En este caso no fue necesario mirar la informacion del invariante \\
+              
+        \end{itemize}
+    \end{itemize}
+
+    Queda demostrado que el ciclo es correcto y termina.
 
 
 
